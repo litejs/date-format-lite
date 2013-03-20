@@ -1,5 +1,5 @@
 { "name": "date-format-lite"
-, "version": "0.1.0"
+, "version": "0.1.1"
 , "license": "MIT"
 , "description": "Date format and parser for node.js and browser"
 , "main": "date-format-lite.js"
@@ -22,6 +22,7 @@
   [ "date"
   , "format"
   , "parse"
+	, "litejs"
   ]
 , "readmeFilename": "README.md"
 }

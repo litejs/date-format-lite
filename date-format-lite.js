@@ -2,14 +2,14 @@
 
 
 /*
-* @version  0.1.0
+* @version  0.1.1
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
 
 
 
-!function(D) {
+!function(D, P) {
 
 	function p2(n) {
 		return n>9?n:"0"+n
@@ -47,9 +47,9 @@
 	
 	var maskRe = /(")([^"\\]|\\.)*"|'(?:[^'\\]|\\.)*'|(YY(?:YY)?|M{1,4}|D{1,4}|([HhmsS])\4?|[uUaAZw])/g
 	
-	Date.prototype.format = function(mask) {
+	D[P].format = function(mask) {
 		var t = this
-		, x = Date.masks[mask] || mask || Date.masks["default"]
+		, x = D.masks[mask] || mask || D.masks["default"]
 		, g = "get" + (x.slice(0,4) == "UTC:" ? (x=x.slice(4), "UTC"):"")
 		, Y = g + "FullYear"
 		, M = g + "Month"
@@ -65,12 +65,12 @@
 					 : a == "YYYY" ? t[Y]()
 					 : a == "M"    ? t[M]()+1
 					 : a == "MM"   ? p2(t[M]()+1)
-					 : a == "MMM"  ? Date.monthNames[ t[M]() ]
-					 : a == "MMMM" ? Date.monthNames[ t[M]()+12 ]
+					 : a == "MMM"  ? D.monthNames[ t[M]() ]
+					 : a == "MMMM" ? D.monthNames[ t[M]()+12 ]
 					 : a == "D"    ? t[d]()
 					 : a == "DD"   ? p2(t[d]())
-					 : a == "DDD"  ? Date.dayNames[ t[w]() ]
-					 : a == "DDDD" ? Date.dayNames[ t[w]()+7 ]
+					 : a == "DDD"  ? D.dayNames[ t[w]() ]
+					 : a == "DDDD" ? D.dayNames[ t[w]()+7 ]
 					 : a == "H"    ? (""+t[h]()%12||12)
 					 : a == "HH"   ? p2(t[h]()%12||12)
 					 : a == "h"    ? t[h]()
@@ -86,16 +86,16 @@
 					 : a == "a"    ? (t[h]() > 11 ? "pm" : "am")
 					 : a == "A"    ? (t[h]() > 11 ? "PM" : "AM")
 					 : a == "Z"    ? "GMT " + (-t.getTimezoneOffset()/60)
-					 : a == "w"    ? 1+Math.floor((t - new Date(t[Y](),0,4))/604800000)
+					 : a == "w"    ? 1+Math.floor((t - new D(t[Y](),0,4))/604800000)
 					 : b           ? c
 					 : a
 			}
 		)
 	}
 
-	Date.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
-	Date.monthNames = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec January February March April May June July August September October November December".split(" ")
-	Date.dayNames = "Sun Mon Tue Wed Thu Fri Sat Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ")
+	D.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
+	D.monthNames = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec January February March April May June July August September October November December".split(" ")
+	D.dayNames = "Sun Mon Tue Wed Thu Fri Sat Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ")
 
 	//*/
 
@@ -103,10 +103,10 @@
 	//** String.date
 	var litEnd = /(\d\d?)\.(\d\d?)\.(\d\d\d\d)/
 
-	String.prototype.date = Number.prototype.date = function(format) {
+	String[P].date = Number[P].date = function(format) {
 		var m
 		, t = this
-		, d = new Date()
+		, d = new D
 		, n = +t || ""+t
 		// n = +t || Date.parse(t) || ""+t; // In Chrome Date.parse("01.02.2001") is Jan
 
@@ -115,7 +115,7 @@
 			if (m = n.match(/(\d\d\d\d)-(\d\d?)-(\d\d?)/)) d.setFullYear(m[1], m[2]-1, m[3])
 
 			// Middle endian date, starting with the month, eg. 01/31/2011
-			else if (m = n.match(Date.middle_endian ? litEnd : /(\d\d?)\/(\d\d?)\/(\d\d\d\d)/)) d.setFullYear(m[3], m[1]-1, m[2])
+			else if (m = n.match(D.middle_endian ? litEnd : /(\d\d?)\/(\d\d?)\/(\d\d\d\d)/)) d.setFullYear(m[3], m[1]-1, m[2])
 			
 			// Little endian date, starting with the day, eg. 31.01.2011
 			else if (m = n.match(litEnd)) d.setFullYear(m[3], m[2]-1, m[1])
@@ -132,7 +132,7 @@
 
 	//*/
 
-}()
+}(Date, "prototype")
 
 
 

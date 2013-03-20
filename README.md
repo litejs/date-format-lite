@@ -9,7 +9,7 @@ Date format
 
 Lite version of Date format and parse for node.js and browser.
 Download [compressed][2] 
-(2093 bytes or 1099 bytes gzipped)
+(2052 bytes or 1087 bytes gzipped)
 or [uncompressed][1] source.
 
 
@@ -19,7 +19,7 @@ or [uncompressed][1] source.
 ### In browser
 
 ```html
-<script src=date-format-lite.min.js></script>
+<script src=date-format-lite.js></script>
 ```
 
 ### In node.js
