@@ -1,14 +1,13 @@
 
 
-include package.mk
-
+FILE=$(shell sed '/"main":/!d;s///;s/[ ,"]//g' package.json)
 
 .PHONY: test
 
 all: compile update-readme test
 
 compile:
-	# Call Google Closure Compiler to produce a minified version
+	# Call Google Closure Compiler to produce a minified version of $(FILE)
 	@curl -s \
 		    --data-urlencode 'output_info=compiled_code' \
 				--data-urlencode 'output_format=text' \
