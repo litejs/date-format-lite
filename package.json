@@ -1,8 +1,8 @@
 { "name": "date-format-lite"
-, "version": "0.1.1"
+, "version": "0.1.4"
 , "license": "MIT"
 , "description": "Date format and parser for node.js and browser"
-, "main": "date-format-lite.js"
+, "main": "date-format.js"
 , "homepage": "http://www.litejs.com/date-format-lite/"
 , "author": "Lauri Rooden <lauri@rooden.ee>"
 , "repository":
@@ -16,7 +16,7 @@
   { "test": "test"
   }
 , "scripts":
-  { "test": "node test/run.js"
+  { "test": "node tests/run.js"
   }
 , "keywords":
   [ "date"

@@ -1,25 +1,28 @@
 
-[1]: https://raw.github.com/litejs/date-format-lite/master/date-format-lite.js
-[2]: https://raw.github.com/litejs/date-format-lite/master/date-format-lite.min.js
+[1]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
+[2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format-lite.js
 [3]: https://raw.github.com/litejs/date-format-lite/master/test/run.js "test/run.js"
 
 
 Date format
 ===========
 
-Lite version of Date format and parse for node.js and browser.
+Lite version of Date format and parse for node.js and browser
+that extends native objects.
 Download [compressed][2] 
-(2052 bytes or 1087 bytes gzipped)
+(2142 bytes, 1068 bytes gzipped)
 or [uncompressed][1] source.
 
 
 
 ## How to use
 
+It is designed to let you do more with less code.
+
 ### In browser
 
 ```html
-<script src=date-format-lite.js></script>
+<script src=date-format.js></script>
 ```
 
 ### In node.js
@@ -34,44 +37,67 @@ require("date-format-lite")
 ### Usage
 
 ```javascript
-var dateStr = new Date().format("isoUtcDateTime")
-var dateStr = new Date().format("hh:mm")
+var now = new Date()         // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
+now.format("isoUtcDateTime") // 2013-07-10T13:47:36Z
+now.format("hh:mm")          // 16:47
+now.format("UTC:hh:mm")      // 13:47
 
 ```
+
+### Define default format
+
+```javascript
+Date.masks.default = 'YYYY-MM-DD hh:mm:ss'
+now.format()                 // 2013-07-10 13:47:36
+```
+
+### Define custom formats
+
+```javascript
+Date.masks.my = '"DayNo "D'
+now.format("my")             // DayNo 10
+```
+
+
+### Use another language
+
+// Add to estonian-lang.js
+Date.dayNames = "P E T K N R L pühapäev esmaspäev teisipäev kolmapäev neljapäev reede laupäev".split(" ")
+Date.monthNames = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets jaanuar veebruar märts aprill mai juuni juuli august september oktoober november detsember".split(" ")
+
 
 See [tests][3] for more examples
 
 ## Syntax
 
-```javascript
-YY    - A two digit representation of a year. Examples: 99 or 03
-YY    - A two digit representation of a year. Examples: 99 or 03
-YYYY  - A full numeric representation of a year, 4 digits. Examples: 1999 or 2003
-M     - Numeric representation of a month, without leading zeros. 1 through 12
-MM    - Numeric representation of a month, with leading zeros. 01 through 12
-MMM   - A short textual representation of a month, three letters. Jan through Dec
-MMMM  - A full textual representation of a month, such as January or March. January through December
-D     - Day of the month without leading zeros. 1 to 31
-DD    - Day of the month, 2 digits with leading zeros. 01 to 31
-DDD   - A textual representation of a day, three letters. Mon through Sun
-DDDD  - A full textual representation of the day of the week. Sunday through Saturday
-H     - 12-hour format of an hour without leading zeros. 1 through 12
-HH    - 12-hour format of an hour with leading zeros. 01 through 12
-h     - 24-hour format of an hour without leading zeros. 0 through 23
-hh    - 24-hour format of an hour with leading zeros. 00 through 23
-m     - Minutes without leading zeros. 0 through 59
-mm    - Minutes with leading zeros. 00 to 59
-s     - Seconds without leading zeros. 0 through 59
-ss    - Seconds with leading zeros. 00 to 59
-S     - Milliseconds without leading zeros. 0 through 999
-SS    - Milliseconds with leading zeros. 000 to 999
-u     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-U     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-a     - Lowercase Ante meridiem and Post meridiem. am or pm
-A     - Uppercase Ante meridiem and Post meridiem. AM or PM
-Z     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
-w     - Week number of year, First week is the week with 4 January in it
-```
+- **YY**    - A two digit representation of a year. Examples: 99 or 03
+- **YY**    - A two digit representation of a year. Examples: 99 or 03
+- **YYYY**  - A full numeric representation of a year, 4 digits. Examples: 1999 or 2003
+- **M**     - Numeric representation of a month, without leading zeros. 1 through 12
+- **MM**    - Numeric representation of a month, with leading zeros. 01 through 12
+- **MMM**   - A short textual representation of a month, three letters. Jan through Dec
+- **MMMM**  - A full textual representation of a month, such as January or March. January through December
+- **D**     - Day of the month without leading zeros. 1 to 31
+- **DD**    - Day of the month, 2 digits with leading zeros. 01 to 31
+- **DDD**   - A textual representation of a day, three letters. Mon through Sun
+- **DDDD**  - A full textual representation of the day of the week. Sunday through Saturday
+- **H**     - 12-hour format of an hour without leading zeros. 1 through 12
+- **HH**    - 12-hour format of an hour with leading zeros. 01 through 12
+- **h**     - 24-hour format of an hour without leading zeros. 0 through 23
+- **hh**    - 24-hour format of an hour with leading zeros. 00 through 23
+- **m**     - Minutes without leading zeros. 0 through 59
+- **mm**    - Minutes with leading zeros. 00 to 59
+- **s**     - Seconds without leading zeros. 0 through 59
+- **ss**    - Seconds with leading zeros. 00 to 59
+- **S**     - Milliseconds without leading zeros. 0 through 999
+- **SS**    - Milliseconds with leading zeros. 000 to 999
+- **u**     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+- **U**     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+- **a**     - Lowercase Ante meridiem and Post meridiem. am or pm
+- **A**     - Uppercase Ante meridiem and Post meridiem. AM or PM
+- **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
+- **w**     - Week number of year, first week is the week with 4 January in it
+- **"text"** - text
 
 ### Licence
 
