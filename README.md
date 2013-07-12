@@ -1,10 +1,10 @@
 
 [1]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
-[2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format-lite.js
-[3]: https://raw.github.com/litejs/date-format-lite/master/test/run.js "test/run.js"
+[2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
+[3]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
-    @version  0.1.4
-    @date     2013-07-12
+    @version  0.1.5
+    @date     2013-07-13
 
 Date format
 ===========
