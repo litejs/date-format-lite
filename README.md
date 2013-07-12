@@ -3,6 +3,8 @@
 [2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format-lite.js
 [3]: https://raw.github.com/litejs/date-format-lite/master/test/run.js "test/run.js"
 
+    @version  0.1.4
+    @date     2013-07-12
 
 Date format
 ===========
@@ -61,9 +63,11 @@ now.format("my")             // DayNo 10
 
 ### Use another language
 
+```javascript
 // Add to estonian-lang.js
 Date.dayNames = "P E T K N R L pühapäev esmaspäev teisipäev kolmapäev neljapäev reede laupäev".split(" ")
 Date.monthNames = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets jaanuar veebruar märts aprill mai juuni juuli august september oktoober november detsember".split(" ")
+```
 
 
 See [tests][3] for more examples

@@ -8,6 +8,7 @@ MAIN      = $(call read_conf,main)
 VERSION   = $(call read_conf,version)
 ALL      := min.$(MAIN)
 CUSTOM   :=
+DATE      = $(shell date +%F)
 
 
 
@@ -71,7 +72,9 @@ min.%.js: %.js package.json
 	@cat $@
 
 
-update-readme: $(MAIN)
+update-readme: $(MAIN) package.json
+	@sed -i '/@version/s/[^ ]*$$/$(VERSION)/' README.md
+	@sed -i '/@date/s/[^ ]*$$/$(DATE)/' README.md
 	@sed -i "/ bytes, .* gzipped/s/.*/($$(wc -c <min.$(MAIN)) bytes, $$(gzip -c min.$(MAIN) | wc -c) bytes gzipped)/" README.md
 
 update-readme-from-source:
