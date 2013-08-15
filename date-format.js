@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.1.5
+* @version  0.1.6
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -94,7 +94,7 @@
 
 
 	//** String.date
-	var litEnd = /(\d\d?)\.(\d\d?)\.(\d\d\d\d)/
+	var litEnd = /(\d\d?)[-./](\d\d?)[-./](\d\d\d\d)/
 
 	String[proto].date = Number[proto].date = function(format) {
 		var m
@@ -107,12 +107,13 @@
 			// Big endian date, starting with the year, eg. 2011-01-31
 			if (m = n.match(/(\d\d\d\d)-(\d\d?)-(\d\d?)/)) d.setFullYear(m[1], m[2]-1, m[3])
 
-			// Middle endian date, starting with the month, eg. 01/31/2011
-			else if (m = n.match(Date.middle_endian ? litEnd : /(\d\d?)\/(\d\d?)\/(\d\d\d\d)/)) d.setFullYear(m[3], m[1]-1, m[2])
-			
-			// Little endian date, starting with the day, eg. 31.01.2011
-			else if (m = n.match(litEnd)) d.setFullYear(m[3], m[2]-1, m[1])
-			
+			else if (m = n.match(litEnd)) {
+				// Middle endian date, starting with the month, eg. 01/31/2011
+				if (Date.middle_endian) d.setFullYear(m[3], m[1]-1, m[2])
+				// Little endian date, starting with the day, eg. 31.01.2011
+				else d.setFullYear(m[3], m[2]-1, m[1])
+			}
+
 			// Time
 			m = n.match(/(\d{1,2}):(\d{2}):?(\d{2})?\.?(\d{3})?/) || [0, 0, 0]
 			if (n.match(/pm/i) && m[1] < 12) m[1]+=12

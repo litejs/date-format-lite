@@ -18,7 +18,11 @@ var found = 0
 	, "01 AM": d2.format("YY A")
 	, "2009-02-13T23:31:30Z": d3.format("isoUtcDateTime")
 	, 'Bla:23:31': d3.format('UTC:"Bla:"hh:mm')
-}
+	, "2011-09-21": "21/09/2011".date("YYYY-MM-DD")
+	, "2011/09/21": "21.09.2011".date("YYYY/MM/DD")
+	, "2011.09.21": "21-09-2011".date("YYYY.MM.DD")
+	}
+
 
 for (var test in tests) {
 	found++

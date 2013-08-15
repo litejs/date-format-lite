@@ -3,8 +3,8 @@
 [2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
 [3]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
-    @version  0.1.5
-    @date     2013-07-13
+    @version  0.1.6
+    @date     2013-08-15
 
 Date format
 ===========
@@ -12,7 +12,7 @@ Date format
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][2] 
-(2142 bytes, 1068 bytes gzipped)
+(2115 bytes, 1069 bytes gzipped)
 or [uncompressed][1] source.
 
 
@@ -39,25 +39,32 @@ require("date-format-lite")
 ### Usage
 
 ```javascript
-var now = new Date()         // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
-now.format("isoUtcDateTime") // 2013-07-10T13:47:36Z
-now.format("hh:mm")          // 16:47
-now.format("UTC:hh:mm")      // 13:47
+// Format
+var now = new Date()          // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
+now.format("isoUtcDateTime")  // 2013-07-10T13:47:36Z
+now.format("hh:mm")           // 16:47
+now.format("UTC:hh:mm")       // 13:47
 
+// Parse
+"2013-07-10".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)} 
+"2013-07-10T13:47:36Z".date() // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
+"10/07/2013".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)}
+Date.middle_endian = true
+"10/07/2013".date()           // Date {Mon Oct 07 2013 03:00:00 GMT+0300 (EEST)}
 ```
 
 ### Define default format
 
 ```javascript
 Date.masks.default = 'YYYY-MM-DD hh:mm:ss'
-now.format()                 // 2013-07-10 13:47:36
+now.format()                  // 2013-07-10 13:47:36
 ```
 
 ### Define custom formats
 
 ```javascript
 Date.masks.my = '"DayNo "D'
-now.format("my")             // DayNo 10
+now.format("my")              // DayNo 10
 ```
 
 

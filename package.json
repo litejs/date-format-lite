@@ -1,5 +1,5 @@
 { "name": "date-format-lite"
-, "version": "0.1.5"
+, "version": "0.1.6"
 , "license": "MIT"
 , "description": "Date format and parser for node.js and browser"
 , "main": "date-format.js"
