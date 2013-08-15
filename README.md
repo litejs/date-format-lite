@@ -21,7 +21,7 @@ Date format
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][2] 
-(2115 bytes, 1069 bytes gzipped)
+(2108 bytes, 1069 bytes gzipped)
 or [uncompressed][1] source.
 
 

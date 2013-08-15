@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.1.6
+* @version  0.1.7
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -10,6 +10,13 @@
 
 
 !function(Date, proto) {
+	var maskRe = /(")(.*?)"|'(?:[^'\\]|\\.)*'|(YY(?:YY)?|M{1,4}|D{1,4}|([HhmsS])\4?|[uUaAZw])/g
+	, yearFirstRe = /(\d\d\d\d)[-.\/](\d\d?)[-.\/](\d\d?)/
+	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d\d\d\d)/
+	, timeRe = /(\d{1,2}):(\d{2}):?(\d{2})?\.?(\d{3})?/
+	, periodRe = /pm/i
+	, wordRe = /.[a-z]+/g
+	
 
 	function p2(n) {
 		return n>9?n:"0"+n
@@ -44,8 +51,6 @@
 	// is used instead. For example, Central European Time (CET) is +0100 and U.S./Canadian Eastern Standard Time (EST) is -0500. The following strings all indicate the same point of time:
 	//
 	// 12:00Z = 13:00+01:00 = 0700-0500
-	
-	var maskRe = /(")(.*?)"|'(?:[^'\\]|\\.)*'|(YY(?:YY)?|M{1,4}|D{1,4}|([HhmsS])\4?|[uUaAZw])/g
 	
 	Date[proto].format = function(mask) {
 		mask = Date.masks[mask] || mask || Date.masks["default"]
@@ -87,27 +92,27 @@
 	}
 
 	Date.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
-	Date.monthNames = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec January February March April May June July August September October November December".split(" ")
-	Date.dayNames = "Sun Mon Tue Wed Thu Fri Sat Sunday Monday Tuesday Wednesday Thursday Friday Saturday".split(" ")
+	Date.monthNames = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecember".match(wordRe)
+	Date.dayNames = "SunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(wordRe)
 
 	//*/
 
 
-	//** String.date
-	var litEnd = /(\d\d?)[-./](\d\d?)[-./](\d\d\d\d)/
+	/*
+	* // In Chrome Date.parse("01.02.2001") is Jan
+	* n = +self || Date.parse(self) || ""+self;
+	*/
 
 	String[proto].date = Number[proto].date = function(format) {
 		var m
-		, self = this
 		, d = new Date
-		, n = +self || ""+self
-		// n = +self || Date.parse(self) || ""+self; // In Chrome Date.parse("01.02.2001") is Jan
+		, n = +this || ""+this
 
 		if (isNaN(n)) {
 			// Big endian date, starting with the year, eg. 2011-01-31
-			if (m = n.match(/(\d\d\d\d)-(\d\d?)-(\d\d?)/)) d.setFullYear(m[1], m[2]-1, m[3])
+			if (m = n.match(yearFirstRe)) d.setFullYear(m[1], m[2]-1, m[3])
 
-			else if (m = n.match(litEnd)) {
+			else if (m = n.match(dateFirstRe)) {
 				// Middle endian date, starting with the month, eg. 01/31/2011
 				if (Date.middle_endian) d.setFullYear(m[3], m[1]-1, m[2])
 				// Little endian date, starting with the day, eg. 31.01.2011
@@ -115,16 +120,14 @@
 			}
 
 			// Time
-			m = n.match(/(\d{1,2}):(\d{2}):?(\d{2})?\.?(\d{3})?/) || [0, 0, 0]
-			if (n.match(/pm/i) && m[1] < 12) m[1]+=12
+			m = n.match(timeRe) || [0, 0, 0]
+			if (n.match(periodRe) && m[1] < 12) m[1]+=12
 			d.setHours(m[1], m[2], m[3]||0, m[4]||0)
 			// Timezone
 			n.indexOf("Z") && d.setTime(d-(d.getTimezoneOffset()*60000))
 		} else d.setTime( (n<4294967296?n*1000:n) )
 		return format ? d.format(format) : d
 	}
-
-	//*/
 
 }(Date, "prototype")
 
