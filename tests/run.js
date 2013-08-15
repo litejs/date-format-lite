@@ -13,6 +13,7 @@ var found = 0
 	{ "2010-06-16T13:45:55Z": d1.format("isoUtcDateTime")
 	, "1276695955": d1.format("u")
 	, "1276695955012": d1.format("U")
+	, "1276695955012012": d1.format("USS")
 	, "2001-09-09T01:46:40Z": d2.format("isoUtcDateTime")
 	, "1:46 AM": d2.format("UTC:H:mm A")
 	, "01 AM": d2.format("YY A")
@@ -24,6 +25,9 @@ var found = 0
 	}
 Date.middle_endian = true
 tests["21-09-2011"] = "9/21/2011".date("DD-MM-YYYY")
+tests["09-21-2011"] = (1316563200).date("MM-DD-YYYY")
+tests["012"] = (1316563200012).date("SS")
+tests["12"] = (1316563200012).date("S")
 
 
 for (var test in tests) {
