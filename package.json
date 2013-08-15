@@ -1,28 +1,27 @@
-{ "name": "date-format-lite"
-, "version": "0.1.6"
-, "license": "MIT"
-, "description": "Date format and parser for node.js and browser"
-, "main": "date-format.js"
-, "homepage": "http://www.litejs.com/date-format-lite/"
-, "author": "Lauri Rooden <lauri@rooden.ee>"
-, "repository":
-  { "type": "git"
-  , "url": "git://github.com/litejs/date-format-lite.git"
-  }
-, "bugs":
-  { "url": "https://github.com/litejs/date-format-lite/issues"
-  }
-, "directories":
-  { "test": "test"
-  }
-, "scripts":
-  { "test": "node tests/run.js"
-  }
-, "keywords":
-  [ "date"
-  , "format"
-  , "parse"
-	, "litejs"
-  ]
-, "readmeFilename": "README.md"
+{
+	"name": "date-format-lite",
+	"version": "0.1.6",
+	"license": "MIT",
+	"description": "Date format and parser for node.js and browser",
+	"main": "date-format.js",
+	"homepage": "http://www.litejs.com/date-format-lite/",
+	"author": "Lauri Rooden <lauri@rooden.ee>",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/litejs/date-format-lite.git"
+	},
+	"bugs": {
+		"url": "https://github.com/litejs/date-format-lite/issues"
+	},
+	"scripts": {
+		"travis-test": "istanbul cover ./tests/run.js && (coveralls < coverage/lcov.info || exit 0)",
+		"test": "node tests/run.js"
+	},
+	"keywords": [
+		"date",
+		"format",
+		"parse",
+		"litejs"
+	],
+	"readmeFilename": "README.md"
 }

@@ -2,12 +2,19 @@
 [1]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
 [2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
 [3]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
+[nodei-img]: https://nodei.co/npm/date-format-lite.png
+[nodei-url]: https://nodei.co/npm/date-format-lite/
+[cover-img]: https://coveralls.io/repos/litejs/date-format-lite/badge.png
+[cover-url]: https://coveralls.io/r/litejs/date-format-lite
 
-    @version  0.1.6
-    @date     2013-08-15
 
 Date format
 ===========
+
+[![Build Status][travis-img]][travis-url] 
+[![Coverage Status][cover-img]][cover-url]
+
+[![NPM][nodei-img]][nodei-url]
 
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
@@ -18,8 +25,6 @@ or [uncompressed][1] source.
 
 
 ## How to use
-
-It is designed to let you do more with less code.
 
 ### In browser
 
@@ -51,6 +56,8 @@ now.format("UTC:hh:mm")       // 13:47
 "10/07/2013".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)}
 Date.middle_endian = true
 "10/07/2013".date()           // Date {Mon Oct 07 2013 03:00:00 GMT+0300 (EEST)}
+// Change format
+"10/07/2013".date("YYYY-MM-DD")// 2013-07-10
 ```
 
 ### Define default format
