@@ -2,6 +2,8 @@
 [1]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
 [2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
 [3]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
+[travis-img]: https://secure.travis-ci.org/litejs/date-format-lite.png
+[travis-url]: https://travis-ci.org/litejs/date-format-lite
 [nodei-img]: https://nodei.co/npm/date-format-lite.png
 [nodei-url]: https://nodei.co/npm/date-format-lite/
 [cover-img]: https://coveralls.io/repos/litejs/date-format-lite/badge.png

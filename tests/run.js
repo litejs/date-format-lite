@@ -22,6 +22,8 @@ var found = 0
 	, "2011/09/21": "21.09.2011".date("YYYY/MM/DD")
 	, "2011.09.21": "21-09-2011".date("YYYY.MM.DD")
 	}
+Date.middle_endian = true
+tests["21-09-2011"] = "9/21/2011".date("DD-MM-YYYY")
 
 
 for (var test in tests) {
