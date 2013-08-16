@@ -1,28 +1,28 @@
 
-[1]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
-[2]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
-[3]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
-[travis-img]: https://secure.travis-ci.org/litejs/date-format-lite.png
-[travis-url]: https://travis-ci.org/litejs/date-format-lite
-[nodei-img]: https://nodei.co/npm/date-format-lite.png
-[nodei-url]: https://nodei.co/npm/date-format-lite/
-[cover-img]: https://coveralls.io/repos/litejs/date-format-lite/badge.png
-[cover-url]: https://coveralls.io/r/litejs/date-format-lite
+[1]: https://secure.travis-ci.org/litejs/date-format-lite.png
+[2]: https://travis-ci.org/litejs/date-format-lite
+[3]: https://coveralls.io/repos/litejs/date-format-lite/badge.png
+[4]: https://coveralls.io/r/litejs/date-format-lite
+[5]: https://nodei.co/npm/date-format-lite.png
+[6]: https://nodei.co/npm/date-format-lite/
+[7]: https://ci.testling.com/litejs/date-format-lite.png
+[8]: https://ci.testling.com/litejs/date-format-lite
+[src]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
+[min]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
+[tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-Date format
+
+Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 ===========
 
-[![Build Status][travis-img]][travis-url] 
-[![Coverage Status][cover-img]][cover-url]
-
-[![NPM][nodei-img]][nodei-url]
+[![NPM][5]][6]
 
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
-Download [compressed][2] 
+Download [compressed][min] 
 (2108 bytes, 1069 bytes gzipped)
-or [uncompressed][1] source.
+or [uncompressed][src] source.
 
 
 
@@ -86,7 +86,7 @@ Date.monthNames = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets ja
 ```
 
 
-See [tests][3] for more examples
+See [tests][test] for more examples
 
 ## Syntax
 
@@ -118,6 +118,10 @@ See [tests][3] for more examples
 - **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
 - **w**     - Week number of year, first week is the week with 4 January in it
 - **"text"** - text
+
+### Browser Support
+
+[![browser support][7]][8]
 
 ### Licence
 

@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.1.7
+* @version  0.1.8
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
