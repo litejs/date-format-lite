@@ -21,7 +21,7 @@ Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][min] 
-(1922 bytes, 1038 bytes gzipped)
+(1917 bytes, 1046 bytes gzipped)
 or [uncompressed][src] source.
 
 
@@ -90,7 +90,7 @@ See [tests][test] for more examples
 
 ## Syntax
 
-- **YY**    - A two digit representation of a year. Examples: 99 or 03
+- **Y**     - A two digit representation of a year without leading zeros. Examples: 99 or 3
 - **YY**    - A two digit representation of a year. Examples: 99 or 03
 - **YYYY**  - A full numeric representation of a year, 4 digits. Examples: 1999 or 2003
 - **M**     - Numeric representation of a month, without leading zeros. 1 through 12
@@ -117,7 +117,7 @@ See [tests][test] for more examples
 - **A**     - Uppercase Ante meridiem and Post meridiem. AM or PM
 - **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
 - **w**     - Week number of year, first week is the week with 4 January in it
-- **"text"** - text
+- **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
 
 ### Browser Support
 

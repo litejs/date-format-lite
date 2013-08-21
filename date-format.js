@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.1.9
+* @version  0.2.0
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -10,12 +10,13 @@
 
 
 !function(Date, proto) {
-	var maskRe = /(")(.*?)"|'(?:[^'\\]|\\.)*'|(?:YY(?:YY)?|M{3,4}|D{3,4}|[uUaAZ]|([MDHhmsSw]))(\3?)/g
-	, yearFirstRe = /(\d\d\d\d)[-.\/](\d\d?)[-.\/](\d\d?)/
-	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d\d\d\d)/
-	, timeRe = /(\d{1,2}):(\d{2}):?(\d{2})?\.?(\d{3})?/
+	var maskRe = /(["'])((?:[^\\]|\\.)*?)\1|YYYY|[MD]{3,4}|SS|([YMDHhmsw])(\3?)|[uUaAZS]/g
+	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
+	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
+	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?/
 	, periodRe = /pm/i
 	, wordRe = /.[a-z]+/g
+	, unescapeRe = /\\(.)/g
 	
 
 	function p2(n) {
@@ -59,7 +60,7 @@
 		, get = "get" + (mask.slice(0,4) == "UTC:" ? (mask=mask.slice(4), "UTC"):"")
 
 		return mask.replace(maskRe, function(match, quote, text, single, pad) {
-			text = match == "YY"   ? (""+self[get + "FullYear"]()).slice(2)
+			text = single == "Y"   ? self[get + "FullYear"]() % 100
 				 : match == "YYYY" ? self[get + "FullYear"]()
 				 : single == "M"   ? self[get + "Month"]()+1
 				 : match == "MMM"  ? Date.monthNames[ self[get + "Month"]() ]
@@ -79,7 +80,7 @@
 				 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
 				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
 				 : single == "w"   ? 1+Math.floor((self - new Date(self[get + "FullYear"](),0,4))/604800000)
-				 : quote           ? text
+				 : quote           ? text.replace(unescapeRe, "$1")
 				 : match
 			return pad ? p2(text) : text
 		})
