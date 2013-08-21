@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.1.8
+* @version  0.1.9
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /(")(.*?)"|'(?:[^'\\]|\\.)*'|(YY(?:YY)?|M{1,4}|D{1,4}|([HhmsS])\4?|[uUaAZw])/g
+	var maskRe = /(")(.*?)"|'(?:[^'\\]|\\.)*'|(?:YY(?:YY)?|M{3,4}|D{3,4}|[uUaAZ]|([MDHhmsSw]))(\3?)/g
 	, yearFirstRe = /(\d\d\d\d)[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d\d\d\d)/
 	, timeRe = /(\d{1,2}):(\d{2}):?(\d{2})?\.?(\d{3})?/
@@ -58,37 +58,31 @@
 		var self = this
 		, get = "get" + (mask.slice(0,4) == "UTC:" ? (mask=mask.slice(4), "UTC"):"")
 
-		return mask.replace(maskRe, function(match, quote, text) {
-			return match == "YY"   ? (""+self[get + "FullYear"]()).slice(2)
-					 : match == "YYYY" ? self[get + "FullYear"]()
-					 : match == "M"    ? self[get + "Month"]()+1
-					 : match == "MM"   ? p2(self[get + "Month"]()+1)
-					 : match == "MMM"  ? Date.monthNames[ self[get + "Month"]() ]
-					 : match == "MMMM" ? Date.monthNames[ self[get + "Month"]()+12 ]
-					 : match == "D"    ? self[get + "Date"]()
-					 : match == "DD"   ? p2(self[get + "Date"]())
-					 : match == "DDD"  ? Date.dayNames[ self[get + "Day"]() ]
-					 : match == "DDDD" ? Date.dayNames[ self[get + "Day"]()+7 ]
-					 : match == "H"    ? (""+self[get + "Hours"]()%12||12)
-					 : match == "HH"   ? p2(self[get + "Hours"]()%12||12)
-					 : match == "h"    ? self[get + "Hours"]()
-					 : match == "hh"   ? p2(self[get + "Hours"]())
-					 : match == "m"    ? self[get + "Minutes"]()
-					 : match == "mm"   ? p2(self[get + "Minutes"]())
-					 : match == "s"    ? self[get + "Seconds"]()
-					 : match == "ss"   ? p2(self[get + "Seconds"]())
-					 : match == "S"    ? self[get + "Milliseconds"]()
-					 : match == "SS"   ? p3(self[get + "Milliseconds"]())
-					 : match == "u"    ? (self/1000)>>>0
-					 : match == "U"    ? +self
-					 : match == "a"    ? (self[get + "Hours"]() > 11 ? "pm" : "am")
-					 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
-					 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
-					 : match == "w"    ? 1+Math.floor((self - new Date(self[get + "FullYear"](),0,4))/604800000)
-					 : quote           ? text
-					 : match
-			}
-		)
+		return mask.replace(maskRe, function(match, quote, text, single, pad) {
+			text = match == "YY"   ? (""+self[get + "FullYear"]()).slice(2)
+				 : match == "YYYY" ? self[get + "FullYear"]()
+				 : single == "M"   ? self[get + "Month"]()+1
+				 : match == "MMM"  ? Date.monthNames[ self[get + "Month"]() ]
+				 : match == "MMMM" ? Date.monthNames[ self[get + "Month"]()+12 ]
+				 : single == "D"   ? self[get + "Date"]()
+				 : match == "DDD"  ? Date.dayNames[ self[get + "Day"]() ]
+				 : match == "DDDD" ? Date.dayNames[ self[get + "Day"]()+7 ]
+				 : single == "H"   ? (""+self[get + "Hours"]()%12||12)
+				 : single == "h"   ? self[get + "Hours"]()
+				 : single == "m"   ? self[get + "Minutes"]()
+				 : single == "s"   ? self[get + "Seconds"]()
+				 : match == "S"    ? self[get + "Milliseconds"]()
+				 : match == "SS"   ? p3(self[get + "Milliseconds"]())
+				 : match == "u"    ? (self/1000)>>>0
+				 : match == "U"    ? +self
+				 : match == "a"    ? (self[get + "Hours"]() > 11 ? "pm" : "am")
+				 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
+				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
+				 : single == "w"   ? 1+Math.floor((self - new Date(self[get + "FullYear"](),0,4))/604800000)
+				 : quote           ? text
+				 : match
+			return pad ? p2(text) : text
+		})
 	}
 
 	Date.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}

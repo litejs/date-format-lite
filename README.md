@@ -21,7 +21,7 @@ Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][min] 
-(2108 bytes, 1069 bytes gzipped)
+(1922 bytes, 1038 bytes gzipped)
 or [uncompressed][src] source.
 
 
