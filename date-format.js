@@ -99,7 +99,7 @@
 	*/
 
 	String[proto].date = Number[proto].date = function(format) {
-		var m
+		var m, temp
 		, d = new Date
 		, n = +this || ""+this
 
@@ -109,9 +109,9 @@
 
 			else if (m = n.match(dateFirstRe)) {
 				// Middle endian date, starting with the month, eg. 01/31/2011
-				if (Date.middle_endian) d.setFullYear(m[3], m[1]-1, m[2])
 				// Little endian date, starting with the day, eg. 31.01.2011
-				else d.setFullYear(m[3], m[2]-1, m[1])
+				temp = Date.middle_endian ? 1 : 2
+				d.setFullYear(m[3], m[temp]-1, m[3-temp])
 			}
 
 			// Time
@@ -120,7 +120,7 @@
 			d.setHours(m[1], m[2], m[3]||0, m[4]||0)
 			// Timezone
 			n.indexOf("Z") && d.setTime(d-(d.getTimezoneOffset()*60000))
-		} else d.setTime( (n<4294967296?n*1000:n) )
+		} else d.setTime( n < 4294967296 ? n * 1000 : n )
 		return format ? d.format(format) : d
 	}
 
