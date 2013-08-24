@@ -21,7 +21,7 @@ Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][min] 
-(1895 bytes, 1044 bytes gzipped)
+(1979 bytes, 1079 bytes gzipped)
 or [uncompressed][src] source.
 
 
@@ -116,8 +116,14 @@ See [tests][test] for more examples
 - **a**     - Lowercase Ante meridiem and Post meridiem. am or pm
 - **A**     - Uppercase Ante meridiem and Post meridiem. AM or PM
 - **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
-- **w**     - Week number of year, first week is the week with 4 January in it
 - **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
+
+###### ISO-8601
+- **w**     - Day of the week. 1 (for Monday) through 7 (for Sunday)
+- **W**     - Week number of year, first week is the week with 4 January in it
+- **o**     - ISO-8601 year number. This has the same value as YYYY, 
+            except that if the ISO week number (W) belongs to the previous or next year, 
+            that year is used instead
 
 ### Browser Support
 

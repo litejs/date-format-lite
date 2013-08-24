@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.2.0
+* @version  0.3.0
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -10,46 +10,32 @@
 
 
 !function(Date, proto) {
-	var maskRe = /(["'])((?:[^\\]|\\.)*?)\1|YYYY|[MD]{3,4}|SS|([YMDHhmsw])(\3?)|[uUaAZS]/g
+	var maskRe = /(["'])((?:[^\\]|\\.)*?)\1|YYYY|[MD]{3,4}|SS|([YMDHhmsW])(\3?)|[uUaAZSwo]/g
 	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
+	, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
 	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?/
 	, periodRe = /pm/i
 	, wordRe = /.[a-z]+/g
 	, unescapeRe = /\\(.)/g
 	
 
-	function p2(n) {
-		return n>9?n:"0"+n
+	function nearestThursday(self) {
+		return new Date(+self + ((4 - (self.getDay()||7)) * 86400000))
 	}
 
-	function p3(n) {
-		return (n>99?n:(n>9?"0":"00")+n)
-	}
-
-	//** Date.format
 	// ISO 8601 specifies numeric representations of date and time.
+	//
 	// The international standard date notation is
-	//
 	// YYYY-MM-DD
+	//
 	// The international standard notation for the time of day is
-	//
 	// hh:mm:ss
-	//
-	// TODO:2012-03-05:lauriro:Date week number not complete
-	// http://en.wikipedia.org/wiki/ISO_week_date
 	//
 	// Time zone
 	//
-	// The strings
-	//
-	// +hh:mm, +hhmm, or +hh
-	//
-	// can be added to the time to indicate that the used local time zone is hh hours and mm minutes ahead of UTC. For time zones west of the zero meridian, which are behind UTC, the notation
-	//
-	// -hh:mm, -hhmm, or -hh
-	//
-	// is used instead. For example, Central European Time (CET) is +0100 and U.S./Canadian Eastern Standard Time (EST) is -0500. The following strings all indicate the same point of time:
+	// The strings +hh:mm, +hhmm, or +hh (ahead of UTC)
+	// -hh:mm, -hhmm, or -hh (time zones west of the zero meridian, which are behind UTC)
 	//
 	// 12:00Z = 13:00+01:00 = 0700-0500
 	
@@ -73,16 +59,18 @@
 				 : single == "m"   ? self[get + "Minutes"]()
 				 : single == "s"   ? self[get + "Seconds"]()
 				 : match == "S"    ? self[get + "Milliseconds"]()
-				 : match == "SS"   ? p3(self[get + "Milliseconds"]())
+				 : match == "SS"   ? (quote = self[get + "Milliseconds"](), quote > 99 ? quote : (quote > 9 ? "0" : "00" ) + quote)
 				 : match == "u"    ? (self/1000)>>>0
 				 : match == "U"    ? +self
 				 : match == "a"    ? (self[get + "Hours"]() > 11 ? "pm" : "am")
 				 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
 				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
-				 : single == "w"   ? 1+Math.floor((self - new Date(self[get + "FullYear"](),0,4))/604800000)
+				 : match == "w"    ? self[get + "Day"]() || 7
+				 : single == "W"   ? (quote = nearestThursday(self), Math.ceil((1+((+quote-quote.setMonth(0,1))/86400000))/7) )
+				 : match == "o"    ? nearestThursday(self)[get + "FullYear"]()
 				 : quote           ? text.replace(unescapeRe, "$1")
 				 : match
-			return pad ? p2(text) : text
+			return pad && text < 10 ? "0"+text : text
 		})
 	}
 
