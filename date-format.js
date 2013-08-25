@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.3.0
+* @version  0.3.1
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -66,7 +66,7 @@
 				 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
 				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
 				 : match == "w"    ? self[get + "Day"]() || 7
-				 : single == "W"   ? (quote = nearestThursday(self), Math.ceil((1+((+quote-quote.setMonth(0,1))/86400000))/7) )
+				 : single == "W"   ? (quote = nearestThursday(self), Math.ceil(((quote.getTime()-quote.setMonth(0,1))/86400000+1)/7) )
 				 : match == "o"    ? nearestThursday(self)[get + "FullYear"]()
 				 : quote           ? text.replace(unescapeRe, "$1")
 				 : match
