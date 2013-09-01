@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.3.1
+* @version  0.4.0
 * @author   Lauri Rooden - https://github.com/litejs/date-format-lite
 * @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
 */
@@ -19,10 +19,6 @@
 	, wordRe = /.[a-z]+/g
 	, unescapeRe = /\\(.)/g
 	
-
-	function nearestThursday(self) {
-		return new Date(+self + ((4 - (self.getDay()||7)) * 86400000))
-	}
 
 	// ISO 8601 specifies numeric representations of date and time.
 	//
@@ -66,8 +62,8 @@
 				 : match == "A"    ? (self[get + "Hours"]() > 11 ? "PM" : "AM")
 				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
 				 : match == "w"    ? self[get + "Day"]() || 7
-				 : single == "W"   ? (quote = nearestThursday(self), Math.ceil(((quote.getTime()-quote.setMonth(0,1))/86400000+1)/7) )
-				 : match == "o"    ? nearestThursday(self)[get + "FullYear"]()
+				 : single == "W"   ? (quote = new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
+				 : match == "o"    ? new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 				 : quote           ? text.replace(unescapeRe, "$1")
 				 : match
 			return pad && text < 10 ? "0"+text : text
@@ -104,10 +100,11 @@
 
 			// Time
 			m = n.match(timeRe) || [0, 0, 0]
-			if (n.match(periodRe) && m[1] < 12) m[1]+=12
-			d.setHours(m[1], m[2], m[3]||0, m[4]||0)
+			d.setHours( m[1] < 12 && n.match(periodRe) ? m[1]+12 : m[1], m[2], m[3]||0, m[4]||0)
 			// Timezone
-			n.indexOf("Z") && d.setTime(d-(d.getTimezoneOffset()*60000))
+			if (~n.indexOf("Z")) {
+				d.setTime(d-(d.getTimezoneOffset()*60000))
+			}
 		} else d.setTime( n < 4294967296 ? n * 1000 : n )
 		return format ? d.format(format) : d
 	}
