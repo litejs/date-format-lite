@@ -21,7 +21,7 @@ Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][min] 
-(2033 bytes, 1102 bytes gzipped)
+(2031 bytes, 1130 bytes gzipped)
 or [uncompressed][src] source.
 
 
@@ -83,6 +83,10 @@ now.format("my")              // DayNo 10
 // Add to estonian-lang.js
 Date.dayNames = "P E T K N R L pühapäev esmaspäev teisipäev kolmapäev neljapäev reede laupäev".split(" ")
 Date.monthNames = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets jaanuar veebruar märts aprill mai juuni juuli august september oktoober november detsember".split(" ")
+
+// Change AM and PM
+Date.am = "a.m."
+Date.pm = "p.m."
 ```
 
 
@@ -113,8 +117,7 @@ See [tests][tests] for more examples
 - **SS**    - Milliseconds with leading zeros. 000 to 999
 - **u**     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
 - **U**     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-- **a**     - Lowercase Ante meridiem and Post meridiem. am or pm
-- **A**     - Uppercase Ante meridiem and Post meridiem. AM or PM
+- **A**     - Ante meridiem and Post meridiem. AM or PM
 - **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
 - **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
 

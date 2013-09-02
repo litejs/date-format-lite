@@ -24,9 +24,7 @@ describe ("Date.format").
 
 	it ( "should format meridiems" ).
 		equal( d1.format("UTC:A"), "PM" ).
-		equal( d1.format("UTC:a"), "pm" ).
 		equal( d2.format("UTC:H:mm A"), "1:46 AM" ).
-		equal( d2.format("UTC:H:mm a"), "1:46 am" ).
 		equal( d3.format("UTC:A"), "PM" ).
 
 	it ( "should format date and time" ).
@@ -71,9 +69,9 @@ describe ("Date.format").
 		equal( "2010-01-03T01:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-7 1:2").
 
 	it ( "should accept text in quotes" ).
-		equal( d3.format('UTC:"Bla \\"a\\":"hh:mm'), 'Bla "a":23:31' ).
-		equal( d3.format("UTC:'Bla \\'a\\':'hh:mm"), "Bla 'a':23:31" ).
-		equal( d3.format("UTC:'a' a"), "a pm" ).
+		equal( d3.format('UTC:"Bla \\"A\\":"hh:mm'), 'Bla "A":23:31' ).
+		equal( d3.format("UTC:'Bla \\'A\\':'hh:mm"), "Bla 'A':23:31" ).
+		equal( d3.format("UTC:'A' A"), "A PM" ).
 
 describe ("Date.parse").
 
@@ -85,9 +83,6 @@ describe ("Date.parse").
 		equal( "21/09/2011".date("YYYY-MM-DD"), "2011-09-21" ).
 		equal( "21.09.2011".date("YYYY/MM/DD"), "2011/09/21" ).
 		equal( "21-09-2011".date("YYYY.MM.DD"), "2011.09.21" ).
-		equal( "21/09/2011Z".date("UTC:YYYY-MM-DD"), "2011-09-21" ).
-		equal( "21.09.2011Z".date("UTC:YYYY/MM/DD"), "2011/09/21" ).
-		equal( "21-09-2011Z".date("UTC:YYYY.MM.DD"), "2011.09.21" ).
 		run(function(){
 			Date.middle_endian = true
 		}).
@@ -122,6 +117,20 @@ describe ("Date.parse").
 		equal(  "1:00 PM".date("hh:mm:ss.SS"), "13:00:00.000" ).
 		equal( "11:00 PM".date("hh:mm:ss.SS"), "23:00:00.000" ).
 		equal( "11:59 PM".date("hh:mm:ss.SS"), "23:59:00.000" ).
+	
+	it ( "should parse timezones" ).
+		equal( "18:30Z".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30+04".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30+0400".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30+04:00".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 GMT+04".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 GMT+0400".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 GMT+04:00".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 UTC+04".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 UTC+0400".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "22:30 UTC+04:00".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "11:30-0700".date("UTC:hh:mm:ss"), "18:30:00" ).
+		equal( "15:00-03:30".date("UTC:hh:mm:ss"), "18:30:00" ).
 
 	it ( "should parse ISO 8601 week numbers" , { skip: "Not implemented" }).
 		equal( "2004-W53-6".date("YYYY-MM-DD"), "2005-01-01" ).
