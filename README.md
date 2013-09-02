@@ -21,7 +21,7 @@ Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
 Download [compressed][min] 
-(2004 bytes, 1085 bytes gzipped)
+(2033 bytes, 1102 bytes gzipped)
 or [uncompressed][src] source.
 
 
@@ -88,7 +88,7 @@ Date.monthNames = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets ja
 
 See [tests][tests] for more examples
 
-## Syntax
+### Syntax
 
 - **Y**     - A two digit representation of a year without leading zeros. Examples: 99 or 3
 - **YY**    - A two digit representation of a year. Examples: 99 or 03
@@ -124,6 +124,11 @@ See [tests][tests] for more examples
 - **o**     - ISO-8601 year number. This has the same value as YYYY, 
 except that if the ISO week number (W) belongs to the previous or next year, 
 that year is used instead
+
+### Notes
+
+- If no UTC relation information is given with a time representation, the time is assumed to be in local time.
+- If the time is in UTC, add a Z directly after the time without a space.
 
 ### Browser Support
 

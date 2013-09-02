@@ -34,7 +34,7 @@ describe ("Date.format").
 		equal( d2.format("UTC:YY-M-D h:m:s"), "01-9-9 1:46:40" ).
 		equal( d3.format("UTC:Y MMM DDD H A"), "9 Feb Fri 11 PM" ).
 
-	it ( "should format ISO 8601 week numbers" ).
+	it ( "should format ISO 8601 week numbers in local time" ).
 		equal( "2005-01-01T01:02".date("o-'W'WW-w h:m"), "2004-W53-6 1:2").
 		equal( "2005-01-02T01:02".date("o-'W'WW-w h:m"), "2004-W53-7 1:2").
 		equal( "2005-12-31T01:02".date("o-'W'WW-w h:m"), "2005-W52-6 1:2").
@@ -52,6 +52,7 @@ describe ("Date.format").
 		equal( "2010-01-02T01:02".date("o-'W'WW-w h:m"), "2009-W53-6 1:2").
 		equal( "2010-01-03T01:02".date("o-'W'WW-w h:m"), "2009-W53-7 1:2").
 
+	it ( "should format ISO 8601 week numbers in UTC time" ).
 		equal( "2005-01-01T01:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-6 1:2").
 		equal( "2005-01-02T01:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-7 1:2").
 		equal( "2005-12-31T01:02Z".date("UTC:o-'W'WW-w h:m"), "2005-W52-6 1:2").
@@ -96,6 +97,31 @@ describe ("Date.parse").
 		equal("1316563200".date("UTC:MM-DD-YYYY"), "09-21-2011" ).
 		equal((1316563200012).date("SS"), "012" ).
 		equal((1316563200012).date("S"), "12" ).
+
+	it ( "should parse 12-hour clock" ).
+		equal( "12:01 a.m.".date("hh:mm"), "00:01" ).
+		equal( "12:59 a.m.".date("hh:mm"), "00:59" ).
+		equal(  "1:00 a.m.".date("hh:mm"), "01:00" ).
+		equal( "11:00 a.m.".date("hh:mm"), "11:00" ).
+		equal( "11:59 a.m.".date("hh:mm"), "11:59" ).
+		equal( "12:00 p.m.".date("hh:mm"), "12:00" ).
+		equal( "12:01 p.m.".date("hh:mm"), "12:01" ).
+		equal( "12:59 p.m.".date("hh:mm"), "12:59" ).
+		equal(  "1:00 p.m.".date("hh:mm"), "13:00" ).
+		equal( "11:00 p.m.".date("hh:mm"), "23:00" ).
+		equal( "11:59 p.m.".date("hh:mm"), "23:59" ).
+
+		equal( "12:01 AM".date("hh:mm:ss.SS"), "00:01:00.000" ).
+		equal( "12:59 AM".date("hh:mm:ss.SS"), "00:59:00.000" ).
+		equal(  "1:00 AM".date("hh:mm:ss.SS"), "01:00:00.000" ).
+		equal( "11:00 AM".date("hh:mm:ss.SS"), "11:00:00.000" ).
+		equal( "11:59 AM".date("hh:mm:ss.SS"), "11:59:00.000" ).
+		equal( "12:00 PM".date("hh:mm:ss.SS"), "12:00:00.000" ).
+		equal( "12:01 PM".date("hh:mm:ss.SS"), "12:01:00.000" ).
+		equal( "12:59 PM".date("hh:mm:ss.SS"), "12:59:00.000" ).
+		equal(  "1:00 PM".date("hh:mm:ss.SS"), "13:00:00.000" ).
+		equal( "11:00 PM".date("hh:mm:ss.SS"), "23:00:00.000" ).
+		equal( "11:59 PM".date("hh:mm:ss.SS"), "23:59:00.000" ).
 
 	it ( "should parse ISO 8601 week numbers" , { skip: "Not implemented" }).
 		equal( "2004-W53-6".date("YYYY-MM-DD"), "2005-01-01" ).

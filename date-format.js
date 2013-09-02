@@ -14,8 +14,7 @@
 	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
 	, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
-	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?/
-	, periodRe = /pm/i
+	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?(?:\s*(?:(a)|(p))\.?m\.?)?/i
 	, wordRe = /.[a-z]+/g
 	, unescapeRe = /\\(.)/g
 	
@@ -100,7 +99,7 @@
 
 			// Time
 			m = n.match(timeRe) || [0, 0, 0]
-			d.setHours( m[1] < 12 && n.match(periodRe) ? m[1]+12 : m[1], m[2], m[3]||0, m[4]||0)
+			d.setHours( m[6] && m[1] < 12 ? +m[1]+12 : m[5] && m[1] == 12 ? 0 : m[1], m[2], m[3]|0, m[4]|0)
 			// Timezone
 			if (~n.indexOf("Z")) {
 				d.setTime(d-(d.getTimezoneOffset()*60000))
