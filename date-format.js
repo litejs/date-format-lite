@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /(["'])((?:[^\\]|\\.)*?)\1|YYYY|([MD])\3\3(\3?)|SS|([YMDHhmsW])(\5?)|[uUAZSwo]/g
+	var maskRe = /("|')((?:[^\\]|\\.)*?)\1|YYYY|(M|D)\3\3(\3?)|SS|([YMDHhmsW])(\5?)|[uUAZSwo]/g
 	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
 	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
