@@ -84,7 +84,7 @@ describe ("Date.parse").
 		equal( "21.09.2011".date("YYYY/MM/DD"), "2011/09/21" ).
 		equal( "21-09-2011".date("YYYY.MM.DD"), "2011.09.21" ).
 		run(function(){
-			Date.middle_endian = true
+			Date.middleEndian = true
 		}).
 
 		equal("9/21/2011".date("DD-MM-YYYY"), "21-09-2011" ).

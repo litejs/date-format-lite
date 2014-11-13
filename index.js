@@ -2,7 +2,7 @@
 
 
 /*
-* @version  0.5.0
+* @version  0.6.0
 * @author   Lauri Rooden <lauri@rooden.ee>
 * @license  MIT License
 */
@@ -87,7 +87,7 @@
 			else if (m = n.match(dateFirstRe)) {
 				// Middle endian date, starting with the month, eg. 01/31/2011
 				// Little endian date, starting with the day, eg. 31.01.2011
-				temp = Date.middle_endian ? 1 : 2
+				temp = Date.middleEndian ? 1 : 2
 				d.setFullYear(m[3], m[temp]-1, m[3-temp])
 			}
 
