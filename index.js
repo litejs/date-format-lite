@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:[^\\]|\\.)*?)\1|YYYY|(M|D)\3\3(\3?)|([YMDHhmsWS])(\5?)|[uUAZSwo]/g
+	var maskRe = /("|')((?:\\?.)*?)\1|(Y|M|D){3,4}|([YMDHhmsWS])(\4?)|[uUAZSwo]/g
 	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
 	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
@@ -40,11 +40,11 @@
 		var date = this
 		, get = "get" + (mask.slice(0,4) == "UTC:" ? (mask=mask.slice(4), "UTC"):"")
 
-		return mask.replace(maskRe, function(match, quote, text, MD, MD4, single, pad) {
-			text = single == "Y" ? date[get + "FullYear"]() % 100
+		return mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
+			text = MD == "Y"  ? date[get + "FullYear"]()
+			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (match == MD ? 12 : 0) : (match == MD ? 31 : 24) ) ]
+			: single == "Y"   ? date[get + "FullYear"]() % 100
 			: single == "W"   ? (quote = new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
-			: match == "YYYY" ? date[get + "FullYear"]()
-			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (MD4 ? 12 : 0) : (MD4 ? 31 : 24) ) ]
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12
 			: single          ? date[get + map[single]]()

@@ -27,7 +27,7 @@
     "testman": "^0.1.9"
   },
   "buildman": {
-    "dist/date-format-min.js": {
+    "dist/index-min.js": {
       "banner": "/*! litejs.com/MIT-LICENSE.txt */",
       "input": "index.js"
     }
