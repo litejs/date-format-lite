@@ -10,12 +10,12 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:[^\\]|\\.)*?)\1|YYYY|(M|D)\3\3(\3?)|SS|([YMDHhmsW])(\5?)|[uUAZSwo]/g
+	var maskRe = /("|')((?:[^\\]|\\.)*?)\1|YYYY|(M|D)\3\3(\3?)|([YMDHhmsWS])(\5?)|[uUAZSwo]/g
 	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
 	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
 	, timeRe = /(\d\d?):(\d\d):?(\d\d)?\.?(\d{3})?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
-	, wordRe = /.[a-z]+/g
 	, unescapeRe = /\\(.)/g
+	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
 	//, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
 	
 
@@ -42,27 +42,22 @@
 
 		return mask.replace(maskRe, function(match, quote, text, MD, MD4, single, pad) {
 			text = single == "Y"   ? self[get + "FullYear"]() % 100
+				 : single == "W"   ? (quote = new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
 				 : match == "YYYY" ? self[get + "FullYear"]()
+				 : MD ? Date.names[ self[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (MD4 ? 12 : 0) : (MD4 ? 31 : 24) ) ]
 				 : single == "M"   ? self[get + "Month"]()+1
-				 : MD     == "M" ? Date.monthNames[ self[get + "Month"]()+(MD4 ? 12 : 0) ]
-				 : single == "D"   ? self[get + "Date"]()
-				 : MD     == "D" ? Date.dayNames[ self[get + "Day"]() + (MD4 ? 7:0 ) ]
 				 : single == "H"   ? self[get + "Hours"]() % 12 || 12
-				 : single == "h"   ? self[get + "Hours"]()
-				 : single == "m"   ? self[get + "Minutes"]()
-				 : single == "s"   ? self[get + "Seconds"]()
-				 : match == "S"    ? self[get + "Milliseconds"]()
-				 : match == "SS"   ? (quote = self[get + "Milliseconds"](), quote > 99 ? quote : (quote > 9 ? "0" : "00" ) + quote)
+				 : single ? self[get + map[single]]()
 				 : match == "u"    ? (self/1000)>>>0
 				 : match == "U"    ? +self
 				 : match == "A"    ? Date[self[get + "Hours"]() > 11 ? "pm" : "am"]
 				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
 				 : match == "w"    ? self[get + "Day"]() || 7
-				 : single == "W"   ? (quote = new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
 				 : match == "o"    ? new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 				 : quote           ? text.replace(unescapeRe, "$1")
 				 : match
-			return pad && text < 10 ? "0"+text : text
+			if (match == "SS" && text < 100) text = "0" + text
+			return !pad || text > 9 ? text : "0"+text
 		})
 	}
 
@@ -70,8 +65,7 @@
 	Date.pm = "PM"
 
 	Date.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
-	Date.monthNames = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecember".match(wordRe)
-	Date.dayNames = "SunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(wordRe)
+	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
 	//*/
 

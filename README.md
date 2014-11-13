@@ -133,6 +133,10 @@ that year is used instead
 - If no UTC relation information is given with a time representation, the time is assumed to be in local time.
 - If the time is in UTC, add a Z directly after the time without a space.
 
+### ToDo
+
+- [ ] Add timezone support for Date.format
+
 ### Browser Support
 
 [![browser support][7]][8]
