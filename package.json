@@ -1,40 +1,35 @@
 {
-	"name": "date-format-lite",
-	"version": "0.5.0",
-	"license": "MIT",
-	"description": "Date format and parser for node.js and browser",
-	"main": "date-format.js",
-	"author": "Lauri Rooden <lauri@rooden.ee>",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/litejs/date-format-lite.git"
-	},
-	"bugs": {
-		"url": "https://github.com/litejs/date-format-lite/issues"
-	},
-	"scripts": {
-		"travis-test": "istanbul cover ./tests/run.js && (coveralls < coverage/lcov.info || exit 0)",
-		"test": "node tests/run.js"
-	},
-	"keywords": [
-		"date",
-		"time",
-		"format",
-		"parse",
-		"litejs"
-	],
-	"readmeFilename": "README.md",
-	"devDependencies": {
-		"testman": "~0.0.8"
-	},
-	"testling": {
-		"files": "tests/run.js",
-		"browsers": {
-			"ie": [ 6, 9, 10 ],
-			"ff": [ 3, 3.6, 4, 18, 19, "nightly" ],
-			"chrome": [ 4, 10, 20, 24, 25, "canary" ],
-			"safari": [ 4, "5.0.5", 5.1, 6 ],
-			"opera": [ 10, 11, "11.6", 12, "next" ]
-		}
-	}
+  "name": "date-format-lite",
+  "version": "0.5.0",
+  "license": "MIT",
+  "description": "Date format and parser for node.js and browser",
+  "main": "index.js",
+  "author": "Lauri Rooden <lauri@rooden.ee>",
+  "repository": "git://github.com/litejs/date-format-lite.git",
+  "bugs": {
+    "url": "https://github.com/litejs/date-format-lite/issues"
+  },
+  "scripts": {
+    "build": "node node_modules/buildman/index.js --all",
+    "travis-test": "istanbul cover ./tests/run.js && (coveralls < coverage/lcov.info || exit 0)",
+    "test": "node tests/run.js"
+  },
+  "keywords": [
+    "date",
+    "time",
+    "format",
+    "parse",
+    "litejs"
+  ],
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "buildman": "^0.2.19",
+    "testman": "^0.1.9"
+  },
+  "buildman": {
+    "dist/date-format-min.js": {
+      "banner": "/*! litejs.com/MIT-LICENSE.txt */",
+      "input": "index.js"
+    }
+  }
 }

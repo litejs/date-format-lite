@@ -4,11 +4,6 @@
 [3]: https://coveralls.io/repos/litejs/date-format-lite/badge.png
 [4]: https://coveralls.io/r/litejs/date-format-lite
 [5]: https://nodei.co/npm/date-format-lite.png
-[6]: https://nodei.co/npm/date-format-lite/
-[7]: https://ci.testling.com/litejs/date-format-lite.png
-[8]: https://ci.testling.com/litejs/date-format-lite
-[src]: https://raw.github.com/litejs/date-format-lite/master/date-format.js
-[min]: https://raw.github.com/litejs/date-format-lite/master/min.date-format.js
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
@@ -16,14 +11,8 @@
 Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 ===========
 
-[![NPM][5]][6]
-
 Lite version of Date format and parse for node.js and browser
 that extends native objects.
-Download [compressed][min] 
-(2029 bytes, 1130 bytes gzipped)
-or [uncompressed][src] source.
-
 
 
 ## How to use
@@ -139,11 +128,18 @@ that year is used instead
 
 ### Browser Support
 
-[![browser support][7]][8]
+It should work IE6 and up but automated testing is currently broken.
+
+
+Links
+-----
+
+-   [Source-code on Github](https://github.com/litejs/date-format-lite)
+-   [Package on npm](https://npmjs.org/package/date-format-lite)
 
 ### Licence
 
-Copyright (c) 2012 Lauri Rooden &lt;lauri@rooden.ee&gt;  
+Copyright (c) 2012-2014 Lauri Rooden &lt;lauri@rooden.ee&gt;  
 [The MIT License](http://lauri.rooden.ee/mit-license.txt)
 
 

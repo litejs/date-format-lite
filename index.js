@@ -3,8 +3,8 @@
 
 /*
 * @version  0.5.0
-* @author   Lauri Rooden - https://github.com/litejs/date-format-lite
-* @license  MIT License  - http://lauri.rooden.ee/mit-license.txt
+* @author   Lauri Rooden <lauri@rooden.ee>
+* @license  MIT License
 */
 
 
