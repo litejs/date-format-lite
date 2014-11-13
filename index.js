@@ -17,7 +17,7 @@
 	, unescapeRe = /\\(.)/g
 	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
 	//, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
-	
+
 
 	// ISO 8601 specifies numeric representations of date and time.
 	//
@@ -33,29 +33,29 @@
 	// -hh:mm, -hhmm, or -hh (time zones west of the zero meridian, which are behind UTC)
 	//
 	// 12:00Z = 13:00+01:00 = 0700-0500
-	
+
 	Date[proto].format = function(mask) {
 		mask = Date.masks[mask] || mask || Date.masks["default"]
 
-		var self = this
+		var date = this
 		, get = "get" + (mask.slice(0,4) == "UTC:" ? (mask=mask.slice(4), "UTC"):"")
 
 		return mask.replace(maskRe, function(match, quote, text, MD, MD4, single, pad) {
-			text = single == "Y"   ? self[get + "FullYear"]() % 100
-				 : single == "W"   ? (quote = new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
-				 : match == "YYYY" ? self[get + "FullYear"]()
-				 : MD ? Date.names[ self[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (MD4 ? 12 : 0) : (MD4 ? 31 : 24) ) ]
-				 : single == "M"   ? self[get + "Month"]()+1
-				 : single == "H"   ? self[get + "Hours"]() % 12 || 12
-				 : single ? self[get + map[single]]()
-				 : match == "u"    ? (self/1000)>>>0
-				 : match == "U"    ? +self
-				 : match == "A"    ? Date[self[get + "Hours"]() > 11 ? "pm" : "am"]
-				 : match == "Z"    ? "GMT " + (-self.getTimezoneOffset()/60)
-				 : match == "w"    ? self[get + "Day"]() || 7
-				 : match == "o"    ? new Date(+self + ((4 - (self[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
-				 : quote           ? text.replace(unescapeRe, "$1")
-				 : match
+			text = single == "Y" ? date[get + "FullYear"]() % 100
+			: single == "W"   ? (quote = new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
+			: match == "YYYY" ? date[get + "FullYear"]()
+			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (MD4 ? 12 : 0) : (MD4 ? 31 : 24) ) ]
+			: single == "M"   ? date[get + "Month"]() + 1
+			: single == "H"   ? date[get + "Hours"]() % 12 || 12
+			: single          ? date[get + map[single]]()
+			: match == "u"    ? (date/1000)>>>0
+			: match == "U"    ? +date
+			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
+			: match == "Z"    ? "GMT " + (-date.getTimezoneOffset()/60)
+			: match == "w"    ? date[get + "Day"]() || 7
+			: match == "o"    ? new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
+			: quote           ? text.replace(unescapeRe, "$1")
+			: match
 			if (match == "SS" && text < 100) text = "0" + text
 			return !pad || text > 9 ? text : "0"+text
 		})
@@ -64,7 +64,7 @@
 	Date.am = "AM"
 	Date.pm = "PM"
 
-	Date.masks = {"default":"DDD MMM DD YYYY hh:mm:ss","isoUtcDateTime":'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
+	Date.masks = {"default": "DDD MMM DD YYYY hh:mm:ss", "isoUtcDateTime": 'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
 	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
 	//*/
@@ -72,7 +72,7 @@
 
 	/*
 	* // In Chrome Date.parse("01.02.2001") is Jan
-	* n = +self || Date.parse(self) || ""+self;
+	* n = +date || Date.parse(date) || ""+date;
 	*/
 
 	String[proto].date = Number[proto].date = function(format) {
