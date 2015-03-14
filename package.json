@@ -2,19 +2,9 @@
   "name": "date-format-lite",
   "version": "0.6.0",
   "stability": 1,
+  "author": "Lauri Rooden <lauri@rooden.ee>",
   "license": "MIT",
   "description": "Date format and parser for node.js and browser",
-  "main": "index.js",
-  "author": "Lauri Rooden <lauri@rooden.ee>",
-  "repository": "git://github.com/litejs/date-format-lite.git",
-  "bugs": {
-    "url": "https://github.com/litejs/date-format-lite/issues"
-  },
-  "scripts": {
-    "build": "node node_modules/buildman/index.js --all",
-    "travis-test": "istanbul cover ./tests/run.js && (coveralls < coverage/lcov.info || exit 0)",
-    "test": "node tests/run.js"
-  },
   "keywords": [
     "date",
     "time",
@@ -22,9 +12,23 @@
     "parse",
     "litejs"
   ],
+  "main": "index.js",
   "readmeFilename": "README.md",
+  "files": [
+    "dist",
+    "index.js"
+  ],
+  "scripts": {
+    "build": "node node_modules/buildman/index.js --all",
+    "travis-test": "istanbul cover ./tests/run.js && (coveralls < coverage/lcov.info || exit 0)",
+    "test": "node tests/run.js"
+  },
+  "repository": "git://github.com/litejs/date-format-lite.git",
+  "bugs": {
+    "url": "https://github.com/litejs/date-format-lite/issues"
+  },
   "devDependencies": {
-    "buildman": "^0.2.19",
+    "buildman": "^0.2.27",
     "testman": "^0.1.9"
   },
   "buildman": {
