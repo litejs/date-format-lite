@@ -29,6 +29,7 @@ describe ("Date.format").
 
 	it ( "should format date and time" ).
 		equal( d1.format('UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'), "2010-06-16T13:45:55Z" ).
+		equal( d1.format("UTC:YYYYMMDDHHmmss"), "20100616014555" ).
 		equal( d2.format("UTC:YY-M-D h:m:s"), "01-9-9 1:46:40" ).
 		equal( d3.format("UTC:Y MMM DDD H A"), "9 Feb Fri 11 PM" ).
 
