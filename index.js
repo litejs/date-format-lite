@@ -92,7 +92,7 @@
 	 * n = +date || Date.parse(date) || ""+date;
 	 */
 
-	String[proto].date = Number[proto].date = function(format) {
+	String[proto].date = Number[proto].date = function(format, zoneOut, zoneIn) {
 		var undef, m, year, month
 		, d = new Date()
 		, n = +this || "" + this
@@ -112,10 +112,13 @@
 			d.setHours( m[6] && m[1] < 12 ? +m[1]+12 : m[5] && m[1] == 12 ? 0 : m[1], m[2], m[3]|0, (1000 * m[4])|0)
 			// Timezone
 			if (m[7]) {
-				d.setTime(d-((d.getTimezoneOffset() + (m[8]|0)*60 + ((m[8]<0?-1:1)*(m[9]|0)))*60000))
+				zoneIn = (m[8]|0) + ((m[9]|0)/(m[8]<0?-60:60))
 			}
 		} else d.setTime( n < 4294967296 ? n * 1000 : n )
-		return format ? d.format(format) : d
+
+		if (zoneIn != undef) d.setTime(d - (60 * zoneIn + d.getTimezoneOffset()) * 60000)
+
+		return format ? d.format(format, zoneOut) : d
 	}
 
 }(Date, "prototype")

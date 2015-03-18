@@ -160,6 +160,13 @@ describe ("Date.parse").
 		equal( "11:30-0700".date("UTC:hh:mm:ss"), "18:30:00" ).
 		equal( "15:00-03:30".date("UTC:hh:mm:ss"), "18:30:00" ).
 
+	it ( "should accept zone as date argument" ).
+		equal( "18:30Z".date("hh:mm:ss", 0, 0), "18:30:00" ).
+		equal( "18:30Z".date("hh:mm:ss", 0, 1), "18:30:00" ).
+		equal( "18:30".date("hh:mm:ss", 0, 0), "18:30:00" ).
+		equal( "18:30".date("hh:mm:ss", 0, 1), "17:30:00" ).
+		equal( "18:30".date("hh:mm:ss", 0, -1), "19:30:00" ).
+
 	it ( "should parse milliseconds" ).
 		equal( "18:30:01.123".date("hh:mm:ss.SS"), "18:30:01.123" ).
 		equal( "18:30:01.1".date("hh:mm:ss.SS"), "18:30:01.100" ).
