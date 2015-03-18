@@ -42,7 +42,7 @@
 
 		return mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
 			text = MD == "Y"  ? date[get + "FullYear"]()
-			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( MD == "M" ? (match == MD ? 12 : 0) : (match == MD ? 31 : 24) ) ]
+			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
 			: single == "Y"   ? date[get + "FullYear"]() % 100
 			: single == "W"   ? (quote = new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000)), Math.ceil(((quote.getTime()-quote["s" + get.slice(1) + "Month"](0,1)) / 86400000 + 1 ) / 7) )
 			: single == "M"   ? date[get + "Month"]() + 1

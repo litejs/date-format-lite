@@ -32,6 +32,7 @@ describe ("Date.format").
 		equal( d1.format("UTC:YYYYMMDDHHmmss"), "20100616014555" ).
 		equal( d2.format("UTC:YY-M-D h:m:s"), "01-9-9 1:46:40" ).
 		equal( d3.format("UTC:Y MMM DDD H A"), "9 Feb Fri 11 PM" ).
+		equal( d3.format("UTC:Y MMMM DDDD H A"), "9 February Friday 11 PM" ).
 
 	it ( "should format ISO 8601 week numbers in local time" ).
 		equal( "2005-01-01T01:02".date("o-'W'WW-w h:m"), "2004-W53-6 1:2").
