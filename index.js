@@ -11,8 +11,7 @@
 
 !function(Date, proto) {
 	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWS])(\4?)|[uUAZSwo]/g
-	, yearFirstRe = /(\d{4})[-.\/](\d\d?)[-.\/](\d\d?)/
-	, dateFirstRe = /(\d\d?)[-.\/](\d\d?)[-.\/](\d{4})/
+	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
 	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
@@ -94,19 +93,18 @@
 	 */
 
 	String[proto].date = Number[proto].date = function(format) {
-		var m, temp
+		var undef, m, year, month
 		, d = new Date()
 		, n = +this || "" + this
 
 		if (isNaN(n)) {
-			// Big endian date, starting with the year, eg. 2011-01-31
-			if (m = n.match(yearFirstRe)) d.setFullYear(m[1], m[2]-1, m[3])
-
-			else if (m = n.match(dateFirstRe)) {
+			if (m = n.match(dateRe)) {
+				// Big endian date, starting with the year, eg. 2011-01-31
 				// Middle endian date, starting with the month, eg. 01/31/2011
 				// Little endian date, starting with the day, eg. 31.01.2011
-				temp = Date.middleEndian ? 1 : 2
-				d.setFullYear(m[3], m[temp]-1, m[3-temp])
+				year = m[1] > 99 ? 1 : 3
+				month = Date.middleEndian ? 4 - year : 2
+				d.setFullYear(m[year], m[month] - 1, m[6 - month - year])
 			}
 
 			// Time
