@@ -91,6 +91,16 @@ describe ("Date.format").
 		equal( d3.format("UTC:'Bla \\'A\\':'hh:mm"), "Bla 'A':23:31" ).
 		equal( d3.format("UTC:'A' A"), "A PM" ).
 
+	it ( "should format with timezone" ).
+		equal( d3.format("UTC:hh:mmZ"),    "23:31Z" ).
+		equal( d3.format("UTC:hh:mmZ", 1), "23:31Z" ).
+		equal( d3.format("hh:mmZ", 0),     "23:31Z" ).
+		equal( d3.format("hh:mmZ", 1),     "00:31+01" ).
+		equal( d3.format("hh:mmZ", 2),     "01:31+02" ).
+		equal( d3.format("hh:mmZ", -1),    "22:31-01" ).
+		equal( d3.format("hh:mmZ", -2),    "21:31-02" ).
+		equal( d3.format("hh:mmZ", -2.5),  "21:01-02:30" ).
+
 describe ("Date.parse").
 
 	it ( "should parse dates" ).

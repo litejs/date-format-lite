@@ -34,13 +34,22 @@
 	//
 	// 12:00Z = 13:00+01:00 = 0700-0500
 
-	Date[proto].format = function(mask) {
+	Date[proto].format = function(mask, _zone) {
 		mask = Date.masks[mask] || mask || Date.masks["default"]
 
-		var date = this
-		, get = "get" + (mask.slice(0,4) == "UTC:" ? (mask=mask.slice(4), "UTC"):"")
+		var undef, zonediff
+		, date = this
+		, origin = +date
+		, get = "get" + (mask.slice(0, 4) == "UTC:" ? (mask = mask.slice(4), "UTC") : "")
+		, zone = _zone == undef ? date._z : _zone
 
-		return mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
+		if (zone != undef && get == "get") {
+			get = "getUTC"
+			date.setTime( origin + (36e5 * zone) )
+			zonediff = 60 * zone
+		}
+
+		mask = mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
 			text = MD == "Y"  ? date[get + "FullYear"]()
 			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
 			: single == "Y"   ? date[get + "FullYear"]() % 100
@@ -53,7 +62,9 @@
 			: match == "u"    ? (date/1000)>>>0
 			: match == "U"    ? +date
 			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
-			: match == "Z"    ? "GMT " + (-date.getTimezoneOffset()/60)
+			: match == "Z"    ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
+			                    , quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote > 599 ? "" : "0") + (0|(quote/60)) + ((quote%=60) ? ":" + quote : "") : "Z"
+			                    )
 			: match == "w"    ? date[get + "Day"]() || 7
 			: match == "o"    ? new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 			: quote           ? text.replace(unescapeRe, "$1")
@@ -61,6 +72,8 @@
 			if (match == "SS" && text < 100) text = "0" + text
 			return !pad || text > 9 ? text : "0"+text
 		})
+		if (zonediff != undef) date.setTime( origin )
+		return mask
 	}
 
 	Date.am = "AM"
