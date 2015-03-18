@@ -53,24 +53,24 @@
 			text = MD == "Y"  ? date[get + "FullYear"]()
 			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
 			: single == "Y"   ? date[get + "FullYear"]() % 100
-			: single == "W"   ? ( quote = new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000))
+			: single == "W"   ? ( quote = new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))
 			                    , Math.ceil(((quote.getTime() - quote.setMonth(0, 1)) / 86400000 + 1 ) / 7)
 					    )
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12
 			: single          ? date[get + map[single]]()
 			: match == "u"    ? (date/1000)>>>0
-			: match == "U"    ? +date
+			: match == "U"    ? origin
 			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
 			: match == "Z"    ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
 			                    , quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote > 599 ? "" : "0") + (0|(quote/60)) + ((quote%=60) ? ":" + quote : "") : "Z"
 			                    )
 			: match == "w"    ? date[get + "Day"]() || 7
-			: match == "o"    ? new Date(+date + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
+			: match == "o"    ? new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 			: quote           ? text.replace(unescapeRe, "$1")
 			: match
 			if (match == "SS" && text < 100) text = "0" + text
-			return !pad || text > 9 ? text : "0"+text
+			return !pad || text > 9 ? text : "0" + text
 		})
 		if (zonediff != undef) date.setTime( origin )
 		return mask
@@ -79,21 +79,24 @@
 	Date.am = "AM"
 	Date.pm = "PM"
 
-	Date.masks = {"default": "DDD MMM DD YYYY hh:mm:ss", "isoUtcDateTime": 'UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'}
+	Date.masks = {
+		"default": "DDD MMM DD YYYY hh:mm:ss",
+		"isoUtcDateTime": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'"
+	}
 	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
 	//*/
 
 
 	/*
-	* // In Chrome Date.parse("01.02.2001") is Jan
-	* n = +date || Date.parse(date) || ""+date;
-	*/
+	 * // In Chrome Date.parse("01.02.2001") is Jan
+	 * n = +date || Date.parse(date) || ""+date;
+	 */
 
 	String[proto].date = Number[proto].date = function(format) {
 		var m, temp
-		, d = new Date
-		, n = +this || ""+this
+		, d = new Date()
+		, n = +this || "" + this
 
 		if (isNaN(n)) {
 			// Big endian date, starting with the year, eg. 2011-01-31
