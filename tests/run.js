@@ -119,7 +119,7 @@ describe ("Date.parse").
 		equal(  "1:00 PM".date("hh:mm:ss.SS"), "13:00:00.000" ).
 		equal( "11:00 PM".date("hh:mm:ss.SS"), "23:00:00.000" ).
 		equal( "11:59 PM".date("hh:mm:ss.SS"), "23:59:00.000" ).
-	
+
 	it ( "should parse timezones" ).
 		equal( "18:30Z".date("UTC:hh:mm:ss"), "18:30:00" ).
 		equal( "22:30+04".date("UTC:hh:mm:ss"), "18:30:00" ).
@@ -133,6 +133,12 @@ describe ("Date.parse").
 		equal( "22:30 UTC+04:00".date("UTC:hh:mm:ss"), "18:30:00" ).
 		equal( "11:30-0700".date("UTC:hh:mm:ss"), "18:30:00" ).
 		equal( "15:00-03:30".date("UTC:hh:mm:ss"), "18:30:00" ).
+
+	it ( "should parse milliseconds" ).
+		equal( "18:30:01.123".date("hh:mm:ss.SS"), "18:30:01.123" ).
+		equal( "18:30:01.1".date("hh:mm:ss.SS"), "18:30:01.100" ).
+		equal( "18:30.123".date("hh:mm:ss.SS"), "18:30:00.123" ).
+		equal( "18:30.1".date("hh:mm:ss.SS"), "18:30:00.100" ).
 
 	it ( "should parse ISO 8601 week numbers" , { skip: "Not implemented" }).
 		equal( "2004-W53-6".date("YYYY-MM-DD"), "2005-01-01" ).
