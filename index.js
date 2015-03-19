@@ -53,7 +53,7 @@
 			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
 			: single == "Y"   ? date[get + "FullYear"]() % 100
 			: single == "W"   ? ( quote = new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))
-			                    , Math.ceil(((quote.getTime() - quote.setMonth(0, 1)) / 86400000 + 1 ) / 7)
+			                    , Math.ceil(((quote.getTime() - quote["s" + get.slice(1) + "Month"](0, 1)) / 86400000 + 1 ) / 7)
 					    )
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12

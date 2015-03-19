@@ -51,6 +51,24 @@ describe ("Date.format").
 		equal( "2010-01-01T01:02".date("o-'W'WW-w h:m"), "2009-W53-5 1:2").
 		equal( "2010-01-02T01:02".date("o-'W'WW-w h:m"), "2009-W53-6 1:2").
 		equal( "2010-01-03T01:02".date("o-'W'WW-w h:m"), "2009-W53-7 1:2").
+
+		equal( "2005-01-01T23:02".date("o-'W'WW-w h:m"), "2004-W53-6 23:2").
+		equal( "2005-01-02T23:02".date("o-'W'WW-w h:m"), "2004-W53-7 23:2").
+		equal( "2005-12-31T23:02".date("o-'W'WW-w h:m"), "2005-W52-6 23:2").
+		equal( "2007-01-01T23:02".date("o-'W'WW-w h:m"), "2007-W01-1 23:2").
+		equal( "2007-12-30T23:02".date("o-'W'WW-w h:m"), "2007-W52-7 23:2").
+		equal( "2007-12-31T23:02".date("o-'W'WW-w h:m"), "2008-W01-1 23:2").
+		equal( "2008-01-01T23:02".date("o-'W'WW-w h:m"), "2008-W01-2 23:2").
+		equal( "2008-12-28T23:02".date("o-'W'WW-w h:m"), "2008-W52-7 23:2").
+		equal( "2008-12-29T23:02".date("o-'W'WW-w h:m"), "2009-W01-1 23:2").
+		equal( "2008-12-30T23:02".date("o-'W'WW-w h:m"), "2009-W01-2 23:2").
+		equal( "2008-12-31T23:02".date("o-'W'WW-w h:m"), "2009-W01-3 23:2").
+		equal( "2009-01-01T23:02".date("o-'W'WW-w h:m"), "2009-W01-4 23:2").
+		equal( "2009-12-31T23:02".date("o-'W'WW-w h:m"), "2009-W53-4 23:2").
+		equal( "2010-01-01T23:02".date("o-'W'WW-w h:m"), "2009-W53-5 23:2").
+		equal( "2010-01-02T23:02".date("o-'W'WW-w h:m"), "2009-W53-6 23:2").
+		equal( "2010-01-03T23:02".date("o-'W'WW-w h:m"), "2009-W53-7 23:2").
+
 		equal( "2005-01-01T01:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-6 1:2").
 		equal( "2005-01-02T01:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-7 1:2").
 		equal( "2005-12-31T01:02Z".date("UTC:o-'W'WW-w h:m"), "2005-W52-6 1:2").
@@ -67,6 +85,23 @@ describe ("Date.format").
 		equal( "2010-01-01T01:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-5 1:2").
 		equal( "2010-01-02T01:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-6 1:2").
 		equal( "2010-01-03T01:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-7 1:2").
+
+		equal( "2005-01-01T23:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-6 23:2").
+		equal( "2005-01-02T23:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-7 23:2").
+		equal( "2005-12-31T23:02Z".date("UTC:o-'W'WW-w h:m"), "2005-W52-6 23:2").
+		equal( "2007-01-01T23:02Z".date("UTC:o-'W'WW-w h:m"), "2007-W01-1 23:2").
+		equal( "2007-12-30T23:02Z".date("UTC:o-'W'WW-w h:m"), "2007-W52-7 23:2").
+		equal( "2007-12-31T23:02Z".date("UTC:o-'W'WW-w h:m"), "2008-W01-1 23:2").
+		equal( "2008-01-01T23:02Z".date("UTC:o-'W'WW-w h:m"), "2008-W01-2 23:2").
+		equal( "2008-12-28T23:02Z".date("UTC:o-'W'WW-w h:m"), "2008-W52-7 23:2").
+		equal( "2008-12-29T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W01-1 23:2").
+		equal( "2008-12-30T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W01-2 23:2").
+		equal( "2008-12-31T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W01-3 23:2").
+		equal( "2009-01-01T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W01-4 23:2").
+		equal( "2009-12-31T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-4 23:2").
+		equal( "2010-01-01T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-5 23:2").
+		equal( "2010-01-02T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-6 23:2").
+		equal( "2010-01-03T23:02Z".date("UTC:o-'W'WW-w h:m"), "2009-W53-7 23:2").
 
 	it ( "should format ISO 8601 week numbers in UTC time" ).
 		equal( "2005-01-01T01:02Z".date("UTC:o-'W'WW-w h:m"), "2004-W53-6 1:2").
