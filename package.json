@@ -1,10 +1,10 @@
 {
   "name": "date-format-lite",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "stability": 2,
   "author": "Lauri Rooden <lauri@rooden.ee>",
   "license": "MIT",
-  "description": "A small library for parsing formatting dates",
+  "description": "A small library for parsing and formatting dates",
   "keywords": [
     "date",
     "time",

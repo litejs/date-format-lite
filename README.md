@@ -5,7 +5,7 @@
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-    @version    0.7.0
+    @version    0.7.1
     @date       2015-03-21
     @stability  2 - Unstable
 
@@ -13,7 +13,7 @@
 Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 ===========
 
-A small library for parsing formatting dates
+A small library for parsing and formatting dates
 that extends native Date object.
 
 
@@ -26,8 +26,14 @@ npm install date-format-lite --save
 require("date-format-lite")
 ```
 
+
 Format Dates
 ------------
+
+`date-format-lite` adds `format(mask, [zone])` method to native `Date.prototype`.
+
+-   **mask** `String` - Output format, e.g. `hh:mm:ss`.
+-   **zone** `Number, optional` - UTC offset in hours, e.g. `-6.5`.
 
 ```javascript
 var now = new Date()          // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
@@ -37,21 +43,20 @@ now.format("UTC:hh:mm")       // 13:47
 now.format("hh:mm", 2.5)      // 16:17
 ```
 
-`date-format-lite` adds `format` method to native `Date.prototype`.
-
-```javascript
-date.format(mask, [zone])
-```
-
--   **mask** `String` - Output format, e.g. `hh:mm:ss`.
--   **zone** `Number, optional` - UTC offset in hours, e.g. `-6.5`.
-
 
 Parse Dates
 -----------
 
+`date-format-lite` adds `date([outFormat], [outZone], [inZone])` method
+to native `String.prototype` and `Number.prototype`.
+
+-   **outFormat** `String, optional` - Output format, e.g. `hh:mm:ss`.
+    Returns date object when format not specified.
+-   **outZone** `Number, optional` - UTC offset for output in hours, e.g. `-6.5`.
+-   **inZone** `Number, optional` - UTC offset in input in hours, e.g. `-6.5`.
+
 ```javascript
-"2013-07-10".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)} 
+"2013-07-10".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)}
 "2013-07-10T13:47:36Z".date() // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
 "10/07/2013".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)}
 Date.middleEndian = true
@@ -59,18 +64,6 @@ Date.middleEndian = true
 // Change format
 "10/07/2013".date("YYYY-MM-DD")// 2013-07-10
 ```
-
-`date-format-lite` adds `date` method
-to native `String.prototype` and `Number.prototype`.
-
-```javascript
-string.date([outFormat], [outZone], [inZone])
-```
-
--   **outFormat** `String, optional` - Output format, e.g. `hh:mm:ss`.
-    Returns date object when format not specified.
--   **outZone** `Number, optional` - UTC offset for output in hours, e.g. `-6.5`.
--   **inZone** `Number, optional` - UTC offset in input in hours, e.g. `-6.5`.
 
 
 Add custom formats
@@ -138,8 +131,8 @@ Syntax
 ###### ISO-8601
 - **w**     - Day of the week. 1 (for Monday) through 7 (for Sunday)
 - **W**     - Week number of year, first week is the week with 4 January in it
-- **o**     - ISO-8601 year number. This has the same value as YYYY, 
-except that if the ISO week number (W) belongs to the previous or next year, 
+- **o**     - ISO-8601 year number. This has the same value as YYYY,
+except that if the ISO week number (W) belongs to the previous or next year,
 that year is used instead
 
 ### Notes
@@ -164,7 +157,7 @@ Links
 
 ### Licence
 
-Copyright (c) 2012-2014 Lauri Rooden &lt;lauri@rooden.ee&gt;  
+Copyright (c) 2012-2015 Lauri Rooden &lt;lauri@rooden.ee&gt;  
 [The MIT License](http://lauri.rooden.ee/mit-license.txt)
 
 
