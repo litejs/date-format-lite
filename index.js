@@ -80,7 +80,7 @@
 
 	Date.masks = {
 		"default": "DDD MMM DD YYYY hh:mm:ss",
-		"isoUtcDateTime": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'"
+		"iso": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'"
 	}
 	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 

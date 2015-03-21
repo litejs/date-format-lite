@@ -9,10 +9,10 @@ var d3 = new Date(1234567890000);
 require("testman").
 describe ("Date.format").
 
-	it ( "should format isoUtcDateTime" ).
-		equal( d1.format("isoUtcDateTime"), "2010-06-16T13:45:55Z" ).
-		equal( d2.format("isoUtcDateTime"), "2001-09-09T01:46:40Z" ).
-		equal( d3.format("isoUtcDateTime"), "2009-02-13T23:31:30Z" ).
+	it ( "should format iso DateTime" ).
+		equal( d1.format("iso"), "2010-06-16T13:45:55Z" ).
+		equal( d2.format("iso"), "2001-09-09T01:46:40Z" ).
+		equal( d3.format("iso"), "2009-02-13T23:31:30Z" ).
 
 	it ( "should format timestamp" ).
 		equal( d1.format("u"),   "1276695955" ).
