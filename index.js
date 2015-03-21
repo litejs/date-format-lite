@@ -62,7 +62,7 @@
 			: match == "U"    ? origin
 			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
 			: match == "Z"    ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
-			                    , quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote > 599 ? "" : "0") + (0|(quote/60)) + ((quote%=60) ? ":" + quote : "") : "Z"
+			                    , quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote > 599 ? "" : "0") + (0|(quote/60)) + ((quote%=60) ? ":" + (0|quote) : "") : "Z"
 			                    )
 			: match == "w"    ? date[get + "Day"]() || 7
 			: match == "o"    ? new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
