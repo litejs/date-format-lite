@@ -1,10 +1,10 @@
 {
   "name": "date-format-lite",
-  "version": "0.6.2",
-  "stability": 1,
+  "version": "0.7.0",
+  "stability": 2,
   "author": "Lauri Rooden <lauri@rooden.ee>",
   "license": "MIT",
-  "description": "Date format and parser for node.js and browser",
+  "description": "A small library for parsing formatting dates",
   "keywords": [
     "date",
     "time",
