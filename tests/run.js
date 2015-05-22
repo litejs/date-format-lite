@@ -135,6 +135,8 @@ describe ("Date.format").
 		equal( d3.format("hh:mmZ", -1),    "22:31-01" ).
 		equal( d3.format("hh:mmZ", -2),    "21:31-02" ).
 		equal( d3.format("hh:mmZ", -2.5),  "21:01-02:30" ).
+		equal( d3.format("hh:mmZZ", 1),    "00:31+01" ).
+		equal( d3.format("hh:mmZZ", -2.5), "21:01-0230" ).
 
 describe ("Date.parse").
 

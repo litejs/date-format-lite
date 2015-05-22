@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWS])(\4?)|[uUAZSwo]/g
+	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwo]/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
@@ -57,19 +57,19 @@
 					    )
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12
+			: single == "Z"   ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
+				, quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote < 600 ? "0" : "") + (0|(quote/60)) + ((quote%=60) ? (pad ? "" : ":") + quote : "") : "Z"
+			)
 			: single          ? date[get + map[single]]()
 			: match == "u"    ? (date/1000)>>>0
 			: match == "U"    ? origin
 			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
-			: match == "Z"    ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
-			                    , quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote > 599 ? "" : "0") + (0|(quote/60)) + ((quote%=60) ? ":" + (0|quote) : "") : "Z"
-			                    )
 			: match == "w"    ? date[get + "Day"]() || 7
 			: match == "o"    ? new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 			: quote           ? text.replace(unescapeRe, "$1")
 			: match
 			if (match == "SS" && text < 100) text = "0" + text
-			return !pad || text > 9 ? text : "0" + text
+			return pad && text < 10 && single != "Z" ? "0" + text : text
 		})
 		if (zonediff != undef) date.setTime( origin )
 		return mask
