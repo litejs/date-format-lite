@@ -138,6 +138,16 @@ describe ("Date.format").
 		equal( d3.format("hh:mmZZ", 1),    "00:31+01" ).
 		equal( d3.format("hh:mmZZ", -2.5), "21:01-0230" ).
 
+	it ( "should format quarter" ).
+		equal( "2005-01-01T01:00Z".date("UTC:Q"), "1").
+		equal( "2005-03-31T01:00Z".date("UTC:Q"), "1").
+		equal( "2005-04-01T01:00Z".date("UTC:Q"), "2").
+		equal( "2005-06-30T01:00Z".date("UTC:Q"), "2").
+		equal( "2005-07-01T01:00Z".date("UTC:Q"), "3").
+		equal( "2005-09-30T01:00Z".date("UTC:Q"), "3").
+		equal( "2005-10-01T01:00Z".date("UTC:Q"), "4").
+		equal( "2005-12-31T01:00Z".date("UTC:Q"), "4").
+
 describe ("Date.parse").
 
 	it ( "should parse dates" ).

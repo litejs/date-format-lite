@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwo]/g
+	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
@@ -63,6 +63,7 @@
 			: single          ? date[get + map[single]]()
 			: match == "u"    ? (date/1000)>>>0
 			: match == "U"    ? origin
+			: match == "Q"    ? ((date[get + "Month"]()/3)|0) + 1
 			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
 			: match == "w"    ? date[get + "Day"]() || 7
 			: match == "o"    ? new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
