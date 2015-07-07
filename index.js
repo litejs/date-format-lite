@@ -33,7 +33,7 @@
 	//
 	// 12:00Z = 13:00+01:00 = 0700-0500
 
-	Date[proto].format = function(mask, _zone) {
+	Date[proto].date = Date[proto].format = function(mask, _zone) {
 		mask = Date.masks[mask] || mask || Date.masks["default"]
 
 		var undef, zonediff
