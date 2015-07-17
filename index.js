@@ -76,6 +76,11 @@
 		return mask
 	}
 
+	Date[proto].tz = function(zone) {
+		this._z = zone
+		return this
+	}
+
 	Date.am = "AM"
 	Date.pm = "PM"
 
