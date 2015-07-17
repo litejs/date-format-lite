@@ -28,6 +28,7 @@ describe ("Date.format").
 		equal( d3.format("UTC:A"), "PM" ).
 
 	it ( "should format date and time" ).
+		equal( d1.format(), "Wed Jun 16 2010 16:45:55" ).
 		equal( d1.format('UTC:YYYY-MM-DD"T"hh:mm:ss"Z"'), "2010-06-16T13:45:55Z" ).
 		equal( d1.format("UTC:YYYYMMDDHHmmss"), "20100616014555" ).
 		equal( d2.format("UTC:YY-M-D h:m:s"), "01-9-9 1:46:40" ).
@@ -137,6 +138,10 @@ describe ("Date.format").
 		equal( d3.format("hh:mmZ", -2.5),  "21:01-02:30" ).
 		equal( d3.format("hh:mmZZ", 1),    "00:31+01" ).
 		equal( d3.format("hh:mmZZ", -2.5), "21:01-0230" ).
+		equal( d3.format("HH:mmZZ", 0),    "11:31Z" ).
+		equal( d3.format("HH:mmZZ", 1),    "12:31+01" ).
+		equal( d3.format("HH:mmZZ", 2),    "01:31+02" ).
+		equal( (new Date(d3)).tz(2).format("HH:mmZZ"),    "01:31+02" ).
 
 	it ( "should format quarter" ).
 		equal( "2005-01-01T01:00Z".date("UTC:Q"), "1").
@@ -167,6 +172,7 @@ describe ("Date.parse").
 		equal("1316563200".date("UTC:MM-DD-YYYY"), "09-21-2011" ).
 		equal((1316563200012).date("SS"), "012" ).
 		equal((1316563200012).date("S"), "12" ).
+		equal(+(1316563200).date(), 1316563200000 ).
 
 	it ( "should parse 12-hour clock" ).
 		equal( "12:01 a.m.".date("hh:mm"), "00:01" ).
