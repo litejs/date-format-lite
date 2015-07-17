@@ -90,36 +90,41 @@
 
 	/*
 	 * // In Chrome Date.parse("01.02.2001") is Jan
-	 * n = +date || Date.parse(date) || ""+date;
+	 * num = +date || Date.parse(date) || ""+date;
 	 */
 
 	String[proto].date = Number[proto].date = function(format, zoneOut, zoneIn) {
-		var undef, m, year, month
-		, d = new Date()
-		, n = +this || "" + this
+		var undef, match, year, month
+		, date = new Date()
+		, num = +this || "" + this
 
-		if (isNaN(n)) {
-			if (m = n.match(dateRe)) {
+		if (isNaN(num)) {
+			if (match = num.match(dateRe)) {
 				// Big endian date, starting with the year, eg. 2011-01-31
 				// Middle endian date, starting with the month, eg. 01/31/2011
 				// Little endian date, starting with the day, eg. 31.01.2011
-				year = m[1] > 99 ? 1 : 3
+				year = match[1] > 99 ? 1 : 3
 				month = Date.middleEndian ? 4 - year : 2
-				d.setFullYear(m[year], m[month] - 1, m[6 - month - year])
+				date.setFullYear(match[year], match[month] - 1, match[6 - month - year])
 			}
 
 			// Time
-			m = n.match(timeRe) || [0, 0, 0]
-			d.setHours( m[6] && m[1] < 12 ? +m[1]+12 : m[5] && m[1] == 12 ? 0 : m[1], m[2], m[3]|0, (1000 * m[4])|0)
+			match = num.match(timeRe) || [0, 0, 0]
+			date.setHours(
+				match[6] && match[1] < 12 ? +match[1] + 12 :
+				match[5] && match[1] == 12 ? 0 : match[1],
+				match[2], match[3]|0, (1000 * match[4])|0
+			)
+
 			// Timezone
-			if (m[7]) {
-				zoneIn = (m[8]|0) + ((m[9]|0)/(m[8]<0?-60:60))
+			if (match[7]) {
+				zoneIn = (match[8]|0) + ((match[9]|0)/(match[8]<0?-60:60))
 			}
-		} else d.setTime( n < 4294967296 ? n * 1000 : n )
+		} else date.setTime( num < 4294967296 ? num * 1000 : num )
 
-		if (zoneIn != undef) d.setTime(d - (60 * zoneIn + d.getTimezoneOffset()) * 60000)
+		if (zoneIn != undef) date.setTime(date - (60 * zoneIn + date.getTimezoneOffset()) * 60000)
 
-		return format ? d.format(format, zoneOut) : d
+		return format ? date.format(format, zoneOut) : date
 	}
 
 }(Date, "prototype")
