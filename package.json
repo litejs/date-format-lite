@@ -1,6 +1,6 @@
 {
   "name": "date-format-lite",
-  "version": "0.7.2",
+  "version": "0.7.3",
   "stability": 2,
   "author": "Lauri Rooden <lauri@rooden.ee>",
   "license": "MIT",
@@ -27,8 +27,8 @@
     "url": "https://github.com/litejs/date-format-lite/issues"
   },
   "devDependencies": {
-    "buildman": "^0.2.27",
-    "testman": "^0.1.9"
+    "buildman": "0.2.31",
+    "testman": "0.3.1"
   },
   "buildman": {
     "dist/index-min.js": {
