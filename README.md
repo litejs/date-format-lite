@@ -5,8 +5,8 @@
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-    @version    0.7.4
-    @date       2015-07-21
+    @version    0.8.0
+    @date       2016-05-30
     @stability  2 - Unstable
 
 
@@ -169,7 +169,7 @@ Links
 
 ### Licence
 
-Copyright (c) 2012-2015 Lauri Rooden &lt;lauri@rooden.ee&gt;  
+Copyright (c) 2012-2016 Lauri Rooden &lt;lauri@rooden.ee&gt;  
 [The MIT License](http://lauri.rooden.ee/mit-license.txt)
 
 
