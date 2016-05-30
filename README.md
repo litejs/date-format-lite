@@ -43,6 +43,19 @@ now.format("UTC:hh:mm")       // 13:47
 now.format("hh:mm", 2.5)      // 16:17
 ```
 
+Mutate  Dates
+------------
+
+`date-format-lite` adds `add(amount, [unit])` method to native `Date.prototype`.
+
+-   **amount** `Number` - Time to add, negative number will be subtracted.
+-   **unit** `String, optional` - e.g. seconds, minutes, hours, days, weeks, months, years.
+
+```javascript
+now.format("iso")                     // 2013-07-10T13:47:36Z
+now.add(1, "days").format("iso")      // 2013-07-11T13:47:36Z
+now.add(-2, "hours").format("iso")    // 2013-07-11T11:47:36Z
+```
 
 Parse Dates
 -----------

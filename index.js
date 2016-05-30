@@ -81,6 +81,26 @@
 		return this
 	}
 
+	Date[proto].add = function(amount, unit) {
+		var date = this
+		amount |= 0
+		if (unit == "months") {
+			date.setUTCMonth(date.getUTCMonth() + amount)
+		} else if (unit == "years") {
+			date.setFullYear(date.getFullYear() + amount)
+		} else {
+			date.setTime(date.getTime() + (amount * (
+				unit == "days" ? 86400000 :
+				unit == "hours" ? 3600000 :
+				unit == "minutes" ? 60000 :
+				unit == "seconds" ? 1000 :
+				unit == "weeks" ? 604800000 :
+				1
+			)))
+		}
+		return date
+	}
+
 	Date.am = "AM"
 	Date.pm = "PM"
 

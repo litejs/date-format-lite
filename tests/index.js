@@ -5,6 +5,9 @@ var d1 = new Date(1276703114000);
 d1.setUTCHours(13, 45, 55, 12);
 var d2 = new Date(1000000000000);
 var d3 = new Date(1234567890000);
+var addDate = new Date(1234567890123);
+
+Date.masks.isoSS = "UTC:YYYY-MM-DD'T'hh:mm:ss.SS'Z'"
 
 require("testman").
 describe ("Date.format").
@@ -152,6 +155,18 @@ describe ("Date.format").
 		equal( "2005-09-30T01:00Z".date("UTC:Q"), "3").
 		equal( "2005-10-01T01:00Z".date("UTC:Q"), "4").
 		equal( "2005-12-31T01:00Z".date("UTC:Q"), "4").
+
+	it ( "should mutate dates" ).
+		equal( addDate.format("isoSS"), "2009-02-13T23:31:30.123Z" ).
+		equal( addDate.add(-1, "hours").format("isoSS"), "2009-02-13T22:31:30.123Z" ).
+		equal( addDate.add(-2, "days").format("isoSS"), "2009-02-11T22:31:30.123Z" ).
+		equal( addDate.add(2, "months").format("isoSS"), "2009-04-11T22:31:30.123Z" ).
+		equal( addDate.add(3, "years").format("isoSS"), "2012-04-11T22:31:30.123Z" ).
+		equal( addDate.add(1, "weeks").format("isoSS"), "2012-04-18T22:31:30.123Z" ).
+		equal( addDate.add(10, "minutes").format("isoSS"), "2012-04-18T22:41:30.123Z" ).
+		equal( addDate.add(20, "seconds").format("isoSS"), "2012-04-18T22:41:50.123Z" ).
+		equal( addDate.add(100).format("isoSS"), "2012-04-18T22:41:50.223Z" ).
+
 
 describe ("Date.parse").
 
