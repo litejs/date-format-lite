@@ -84,10 +84,8 @@
 	Date[proto].add = function(amount, unit) {
 		var date = this
 		amount |= 0
-		if (unit == "months") {
+		if (unit == "months" || unit == "years" && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
-		} else if (unit == "years") {
-			date.setFullYear(date.getFullYear() + amount)
 		} else {
 			date.setTime(date.getTime() + (amount * (
 				unit == "days" ? 86400000 :

@@ -166,6 +166,8 @@ describe ("Date.format").
 		equal( addDate.add(10, "minutes").format("isoSS"), "2012-04-18T22:41:30.123Z" ).
 		equal( addDate.add(20, "seconds").format("isoSS"), "2012-04-18T22:41:50.123Z" ).
 		equal( addDate.add(100).format("isoSS"), "2012-04-18T22:41:50.223Z" ).
+		equal( addDate.add(-32, "years").format("isoSS"), "1980-04-18T22:41:50.223Z" ).
+		equal( addDate.add(-8, "months").format("isoSS"), "1979-08-18T22:41:50.223Z" ).
 
 
 describe ("Date.parse").
