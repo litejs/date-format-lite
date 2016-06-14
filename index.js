@@ -77,10 +77,14 @@
 			: match == "o"    ? new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))[get + "FullYear"]()
 			: quote           ? text.replace(unescapeRe, "$1")
 			: match
-			if (match == "SS" && text < 100) text = "0" + text
+			if (match == "SS" && text < 100) {
+				text = "0" + text
+			}
 			return pad && text < 10 && single != "Z" ? "0" + text : text
 		})
-		if (zonediff != undef) date.setTime( origin )
+		if (zonediff != undef) {
+			date.setTime(origin)
+		}
 		return mask
 	}
 
@@ -102,16 +106,17 @@
 
 	Date[proto].startOf = function(unit) {
 		var date = this
-		date.setTime( date - (date % (units[unit] || 1)))
+		date.setTime(date - (date % (units[unit] || 1)))
 		return date
 	}
+
 	Date[proto].endOf = function(unit) {
 		return this.startOf(unit).add(1, unit).add(-1)
 	}
 
 	Date[proto].diff = function(from, unit) {
 		var diff = (this - from) / (units[unit] || 1)
-		return diff|0
+		return diff | 0
 	}
 
 	Date.am = "AM"
@@ -158,9 +163,13 @@
 			if (match[7]) {
 				zoneIn = (match[8]|0) + ((match[9]|0)/(match[8]<0?-60:60))
 			}
-		} else date.setTime( num < 4294967296 ? num * 1000 : num )
+		} else {
+			date.setTime(num < 4294967296 ? num * 1000 : num)
+		}
 
-		if (zoneIn != undef) date.setTime(date - (60 * zoneIn + date.getTimezoneOffset()) * 60000)
+		if (zoneIn != undef) {
+			date.setTime(date - (60 * zoneIn + date.getTimezoneOffset()) * 60000)
+		}
 
 		return format ? date.format(format, zoneOut) : date
 	}
