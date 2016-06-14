@@ -20,7 +20,7 @@
   ],
   "scripts": {
     "build": "node node_modules/buildman/index.js --all",
-    "test": "node tests/index.js"
+    "test": "env TZ='Europe/Tallinn' node tests/index.js"
   },
   "repository": "git://github.com/litejs/date-format-lite.git",
   "bugs": {

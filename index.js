@@ -15,6 +15,14 @@
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
 	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
+	, units = {
+		days: 86400000,
+		hours: 3600000,
+		minutes: 60000,
+		seconds: 1000,
+		weeks: 604800000
+	}
+
 	//, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
 
 
@@ -87,16 +95,23 @@
 		if (unit == "months" || unit == "years" && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
 		} else {
-			date.setTime(date.getTime() + (amount * (
-				unit == "days" ? 86400000 :
-				unit == "hours" ? 3600000 :
-				unit == "minutes" ? 60000 :
-				unit == "seconds" ? 1000 :
-				unit == "weeks" ? 604800000 :
-				1
-			)))
+			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
 		}
 		return date
+	}
+
+	Date[proto].startOf = function(unit) {
+		var date = this
+		date.setTime( date - (date % (units[unit] || 1)))
+		return date
+	}
+	Date[proto].endOf = function(unit) {
+		return this.startOf(unit).add(1, unit).add(-1)
+	}
+
+	Date[proto].diff = function(from, unit) {
+		var diff = (this - from) / (units[unit] || 1)
+		return diff|0
 	}
 
 	Date.am = "AM"

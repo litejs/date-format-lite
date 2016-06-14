@@ -8,6 +8,7 @@ var d3 = new Date(1234567890000);
 var addDate = new Date(1234567890123);
 
 Date.masks.isoSS = "UTC:YYYY-MM-DD'T'hh:mm:ss.SS'Z'"
+Date.masks.isoLocal = "YYYY-MM-DD'T'hh:mm:ss.SSZ"
 
 require("testman").
 describe ("Date.format").
@@ -168,9 +169,28 @@ describe ("Date.format").
 		equal( addDate.add(100).format("isoSS"), "2012-04-18T22:41:50.223Z" ).
 		equal( addDate.add(-32, "years").format("isoSS"), "1980-04-18T22:41:50.223Z" ).
 		equal( addDate.add(-8, "months").format("isoSS"), "1979-08-18T22:41:50.223Z" ).
+		equal( addDate.add(100, "days").format("isoSS"), "1979-11-26T22:41:50.223Z" ).
+		equal( addDate.add(100, "days").format("isoSS"), "1980-03-05T22:41:50.223Z" ).
+		equal( addDate.add(100, "days").format("isoSS"), "1980-06-13T22:41:50.223Z" ).
+		equal( addDate.add(30, "years").format("isoSS"), "2010-06-13T22:41:50.223Z" ).
+		equal( addDate.add(-13, "days").format("isoSS"), "2010-05-31T22:41:50.223Z" )
 
 
-describe ("Date.parse").
+.it ( "should diff dates" )
+.equal( "2005-01-02T01:02Z".date().diff("2005-01-03T01:02Z".date(), "days"), -1)
+.equal( "2005-01-02T01:02Z".date().diff("2005-01-01T01:02Z".date(), "days"), 1)
+
+.it ( "should have startOf" )
+.equal( "2005-01-02T00:00:01Z".date().startOf("days").format("iso"), "2005-01-02T00:00:00Z")
+.equal( "2005-01-02T00:01:01Z".date().startOf("days").format("iso"), "2005-01-02T00:00:00Z")
+.equal( "2005-01-02T01:01:01Z".date().startOf("days").format("iso"), "2005-01-02T00:00:00Z")
+
+.it ( "should have endOf" )
+.equal( "2005-01-02T00:00:01Z".date().endOf("days").format("iso"), "2005-01-02T23:59:59Z")
+.equal( "2005-01-02T00:01:01Z".date().endOf("days").format("iso"), "2005-01-02T23:59:59Z")
+.equal( "2005-01-02T01:01:01Z".date().endOf("days").format("iso"), "2005-01-02T23:59:59Z")
+
+.describe ("Date.parse").
 
 	it ( "should parse dates" ).
 		run(function(){
