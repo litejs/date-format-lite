@@ -5,8 +5,8 @@
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-    @version    0.9.0
-    @date       2016-06-14
+    @version    0.9.1
+    @date       2016-08-16
     @stability  2 - Unstable
 
 
