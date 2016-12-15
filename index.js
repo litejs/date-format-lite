@@ -98,7 +98,7 @@
 		amount |= 0
 		if (unit == "months" || unit == "years" && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
-		} else {
+		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
 		}
 		return date

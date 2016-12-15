@@ -176,6 +176,13 @@ require("testman")
 .equal( addDate.add(100, "days").format("isoSS"), "1980-06-13T22:41:50.223Z" )
 .equal( addDate.add(30, "years").format("isoSS"), "2010-06-13T22:41:50.223Z" )
 .equal( addDate.add(-13, "days").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "seconds").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "minutes").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "hours").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "days").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "weeks").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "months").format("isoSS"), "2010-05-31T22:41:50.223Z" )
+.equal( addDate.add(0, "years").format("isoSS"), "2010-05-31T22:41:50.223Z" )
 
 
 .it ( "should diff dates" )
