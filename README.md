@@ -137,8 +137,14 @@ Syntax
 - **u**     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
 - **U**     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
 - **A**     - Ante meridiem and Post meridiem. AM or PM
-- **Z**     - Difference to Greenwich time (GMT) with colon between hours and minutes. Example: GMT +02:00
 - **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
+
+###### Time zone designators
+- **Z**     - Time offsets from UTC in the form ±hh[:mm] Examples: +02,    +02:30
+- **ZZ**    - Time offsets from UTC in the form ±hh[mm] Examples:  +02,    +0230
+- **ZZZ**   - Time offsets from UTC in the form ±hh:mm Examples:   +02:00, +02:30
+- **ZZZZ**  - Time offsets from UTC in the form ±hhmm Examples:    +0200,  +0230
+
 
 ###### ISO-8601
 - **w**     - Day of the week. 1 (for Monday) through 7 (for Sunday)

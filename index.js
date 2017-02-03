@@ -10,7 +10,7 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
+	var maskRe = /("|')((?:\\?.)*?)\1|([YMDZ])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
@@ -58,6 +58,16 @@
 
 		mask = mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
 			text = MD == "Y"  ? date[get + "FullYear"]()
+			: single == "Z" || MD == "Z"   ? (
+				quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0,
+				quote ? (
+					(quote < 0 ? ((quote=-quote), "-") : "+") +
+					(quote < 600 ? "0" : "") +
+					(0|(quote/60)) +
+					((quote%=60) || MD ? (pad || match == "ZZZZ" ? "" : ":") + (quote > 9 ? quote : "0" + quote) : "")
+				)
+				: "Z"
+			)
 			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
 			: single == "Y"   ? date[get + "FullYear"]() % 100
 			: single == "W"   ? ( quote = new Date(origin + ((4 - (date[get + "Day"]()||7)) * 86400000))
@@ -65,10 +75,6 @@
 					    )
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12
-			: single == "Z"   ? (
-				quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0,
-				quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote < 600 ? "0" : "") + (0|(quote/60)) + ((quote%=60) ? (pad ? "" : ":") + (quote > 9 ? quote : "0" + quote) : "") : "Z"
-			)
 			: single          ? date[get + map[single]]()
 			: match == "u"    ? (date/1000)>>>0
 			: match == "U"    ? origin
