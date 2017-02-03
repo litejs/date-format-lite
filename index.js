@@ -65,8 +65,9 @@
 					    )
 			: single == "M"   ? date[get + "Month"]() + 1
 			: single == "H"   ? date[get + "Hours"]() % 12 || 12
-			: single == "Z"   ? ( quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0
-				, quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote < 600 ? "0" : "") + (0|(quote/60)) + ((quote%=60) ? (pad ? "" : ":") + quote : "") : "Z"
+			: single == "Z"   ? (
+				quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0,
+				quote ? (quote < 0 ? ((quote=-quote), "-") : "+") + (quote < 600 ? "0" : "") + (0|(quote/60)) + ((quote%=60) ? (pad ? "" : ":") + (quote > 9 ? quote : "0" + quote) : "") : "Z"
 			)
 			: single          ? date[get + map[single]]()
 			: match == "u"    ? (date/1000)>>>0
