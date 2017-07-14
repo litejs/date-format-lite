@@ -118,6 +118,14 @@
 
 	Date[proto].startOf = function(unit) {
 		var date = this
+		, month = 0
+		if (unit == "year" || unit == "years") {
+			date.setUTCMonth(0, 1)
+			unit = "day"
+		} else if (unit == "month" || unit == "months") {
+			date.setUTCDate(1)
+			unit = "day"
+		}
 		date.setTime(date - (date % (units[unit] || 1)))
 		return date
 	}
