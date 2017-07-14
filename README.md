@@ -134,8 +134,8 @@ Syntax
 - **ss**    - Seconds with leading zeros. 00 to 59
 - **S**     - Milliseconds without leading zeros. 0 through 999
 - **SS**    - Milliseconds with leading zeros. 000 to 999
-- **u**     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
-- **U**     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+- **U**     - Milliseconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
+- **u**     - Seconds since the Unix Epoch (January 1 1970 00:00:00 GMT)
 - **A**     - Ante meridiem and Post meridiem. AM or PM
 - **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
 
