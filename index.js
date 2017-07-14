@@ -16,11 +16,16 @@
 	, unescapeRe = /\\(.)/g
 	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
 	, units = {
-		days: 86400000,
-		hours: 3600000,
-		minutes: 60000,
 		seconds: 1000,
-		weeks: 604800000
+		sec: 1000,
+		minutes: 60000,
+		min: 60000,
+		hours: 3600000,
+		hour: 3600000,
+		days: 86400000,
+		day: 86400000,
+		weeks: 604800000,
+		week: 604800000
 	}
 
 	//, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
@@ -103,7 +108,7 @@
 	Date[proto].add = function(amount, unit) {
 		var date = this
 		amount |= 0
-		if (unit == "months" || unit == "years" && (amount *= 12)) {
+		if ((unit == "month" || unit == "months") || (unit == "year" || unit == "years") && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
 		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
