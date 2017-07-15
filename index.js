@@ -15,17 +15,32 @@
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, unescapeRe = /\\(.)/g
 	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
+	, aliases = {
+		sec: "s",
+		second: "s",
+		seconds: "s",
+		min: "m",
+		minute: "m",
+		minutes: "m",
+		hr: "h",
+		hour: "h",
+		hours: "h",
+		day: "D",
+		days: "D",
+		week: "W",
+		weeks: "W",
+		month: "M",
+		months: "M",
+		year: "Y",
+		years: "Y"
+	}
 	, units = {
-		seconds: 1000,
-		sec: 1000,
-		minutes: 60000,
-		min: 60000,
-		hours: 3600000,
-		hour: 3600000,
-		days: 86400000,
-		day: 86400000,
-		weeks: 604800000,
-		week: 604800000
+		S: 1,
+		s: 1000,
+		m: 60000,
+		h: 3600000,
+		D: 86400000,
+		W: 604800000
 	}
 	, tmp = new Date()
 
@@ -106,8 +121,9 @@
 
 	Date[proto].add = function(amount, unit) {
 		var date = this
+		if (aliases[unit]) unit = aliases[unit]
 		amount |= 0
-		if ((unit == "month" || unit == "months") || (unit == "year" || unit == "years") && (amount *= 12)) {
+		if (unit == "M" || unit == "Y" && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
 		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
@@ -117,13 +133,13 @@
 
 	Date[proto].startOf = function(unit) {
 		var date = this
-		, month = 0
-		if (unit == "year" || unit == "years") {
+		if (aliases[unit]) unit = aliases[unit]
+		if (unit == "Y") {
 			date.setUTCMonth(0, 1)
-			unit = "day"
-		} else if (unit == "month" || unit == "months") {
+			unit = "D"
+		} else if (unit == "M") {
 			date.setUTCDate(1)
-			unit = "day"
+			unit = "D"
 		}
 		date.setTime(date - (date % (units[unit] || 1)))
 		return date
