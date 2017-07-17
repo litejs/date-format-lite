@@ -149,9 +149,31 @@
 		return this.startOf(unit).add(1, unit).add(-1)
 	}
 
-	Date[proto].diff = function(from, unit) {
-		var diff = (this - from) / (units[unit] || 1)
-		return diff | 0
+	Date[proto].since = function(from, unit) {
+		var diff
+		, date = this
+		if (aliases[unit]) unit = aliases[unit]
+		if (typeof from == "string") {
+			from = aliases[from] ? (tmp.setTime(+date), tmp.startOf(from)) : from.date()
+		}
+		if (units[unit]) {
+			diff = (date - from) / units[unit]
+		} else {
+			diff = date.since("month", "S") - from.since("month", "S")
+			if (diff) {
+				tmp.setTime(+date)
+				diff /= units.D * tmp.endOf("M").getUTCDate()
+			}
+			diff += 12 * (date.getUTCFullYear() - from.getUTCFullYear()) + date.getUTCMonth() - from.getUTCMonth()
+			if (unit == "Y") {
+				diff /= 12
+			}
+		}
+
+		return diff
+	}
+	String[proto].since = Number[proto].since = function(from, unit) {
+		return this.date().since(from, unit)
 	}
 
 	Date.am = "AM"
