@@ -119,7 +119,7 @@
 		return this
 	}
 
-	Date[proto].add = function(amount, unit) {
+	Date[proto].add = function(amount, unit, format) {
 		var date = this
 		if (aliases[unit]) unit = aliases[unit]
 		amount |= 0
@@ -128,10 +128,10 @@
 		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
 		}
-		return date
+		return format ? date.format(format) : date
 	}
 
-	Date[proto].startOf = function(unit) {
+	Date[proto].startOf = function(unit, format) {
 		var date = this
 		if (aliases[unit]) unit = aliases[unit]
 		if (unit == "Y") {
@@ -142,11 +142,11 @@
 			unit = "D"
 		}
 		date.setTime(date - (date % (units[unit] || 1)))
-		return date
+		return format ? date.format(format) : date
 	}
 
-	Date[proto].endOf = function(unit) {
-		return this.startOf(unit).add(1, unit).add(-1)
+	Date[proto].endOf = function(unit, format) {
+		return this.startOf(unit).add(1, unit).add(-1, "S", format)
 	}
 
 	Date[proto].since = function(from, unit) {
