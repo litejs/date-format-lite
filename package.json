@@ -1,10 +1,10 @@
 {
   "name": "date-format-lite",
-  "version": "17.7.0",
+  "version": "18.0.0-rc.1",
   "stability": 2,
   "author": "Lauri Rooden <lauri@rooden.ee>",
   "license": "MIT",
-  "description": "A small library for parsing and formatting dates",
+  "description": "Format, parse and manipulate dates in JavaScript",
   "keywords": [
     "date",
     "time",
@@ -19,7 +19,7 @@
     "index.js"
   ],
   "scripts": {
-    "build": "node node_modules/buildman/index.js --all",
+    "build": "litejs-build",
     "test": "env TZ='Europe/Tallinn' node tests/index.js"
   },
   "repository": "git://github.com/litejs/date-format-lite.git",
@@ -27,12 +27,12 @@
     "url": "https://github.com/litejs/date-format-lite/issues"
   },
   "devDependencies": {
-    "buildman": "0.2.31",
-    "testman": "0.3.1"
+    "litejs": "17.7.1",
+    "testman": "0.5.1"
   },
   "buildman": {
     "dist/index-min.js": {
-      "banner": "/*! litejs.com/MIT-LICENSE.txt */",
+      "banner": "litejs.com/MIT-LICENSE.txt",
       "input": "index.js"
     }
   }

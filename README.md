@@ -5,17 +5,53 @@
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-    @version    17.7.0
-    @date       2017-07-14
-    @stability  2 - Unstable
+    @version    18.0.0-rc.1
+    @date       2017-07-19
 
 
 Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
 ===========
 
-A small library for parsing and formatting dates
-that extends native Date object.
+Format, parse and manipulate dates in JavaScript.
 
+Weighing under 4KB (2KB gzipped),
+it includes everything you need to work with dates.  
+To keep things simple,
+there are only handful methods added
+to native `Date` object prototype:
+
+
+ - Date#**date**(format, [zoneOffset])
+ - Date#**since**(from, unit)
+ - Date#**add**(amount, [unit])
+ - Date#**startOf**(unit, [format])
+ - Date#**endOf**(unit, [format])
+
+
+`String` and `Number` are extended with same methods
+and will be parsed to date first.
+
+`#add`, `#startOf` and `#endOf` methods are mutating the original date object. Clone can made `Date(+date).startOf("month")`
+
+List of known units: sec, second, seconds, min, minute, minutes, hr, hour, hours, day, days, week, weeks, month, months, year, years
+
+```javascript
+var number = 1234567890
+, date = new Date(1234567890000)                         // Date {Sat Feb 14 2009 01:31:30 GMT+0200}
+, string = "2009-02-13T23:31:30Z"
+
+date.date("iso") == number.date("iso")                   // true
+number.date("iso") == string.date("iso")                 // true
+date.date("iso")                                         // "2009-02-13T23:31:30Z"
+date.date("UTC:hh:mm")                                   // "23:31"
+date.date("hh:mm", 2.5)                                  // "02:01"
+
+"2013-07-10T13:47:36Z".date("hh:mm '(local time)'")      // "16:47 (local time)"
+
+"2013-07-10T06:00:00Z".since("day", "hours")             // 6
+"2013-07-10T06:00:00Z".since("day", "days")              // 0.25
+"2005-06-06T01:02Z".since("2005-06-07T13:02Z", "months") // -0.05)
+```
 
 Install
 -------
@@ -26,47 +62,12 @@ npm install date-format-lite --save
 require("date-format-lite")
 ```
 
-
-Format Dates
-------------
-
-`date-format-lite` adds `format(mask, [zone])` method to native `Date.prototype`.
-
--   **mask** `String` - Output format, e.g. `hh:mm:ss`.
--   **zone** `Number, optional` - UTC offset in hours, e.g. `-6.5`.
-
-```javascript
-var now = new Date()          // Date {Wed Jul 10 2013 16:47:36 GMT+0300 (EEST)}
-now.format("iso")             // 2013-07-10T13:47:36Z
-now.format("hh:mm")           // 16:47 (local time)
-now.format("UTC:hh:mm")       // 13:47
-now.format("hh:mm", 2.5)      // 16:17
-```
-
-Mutate  Dates
-------------
-
-`date-format-lite` adds `add(amount, [unit])` method to native `Date.prototype`.
-
--   **amount** `Number` - Time to add, negative number will be subtracted.
--   **unit** `String, optional` - e.g. seconds, minutes, hours, days, weeks, months, years.
-
-```javascript
-now.format("iso")                     // 2013-07-10T13:47:36Z
-now.add(1, "days").format("iso")      // 2013-07-11T13:47:36Z
-now.add(-2, "hours").format("iso")    // 2013-07-11T11:47:36Z
-```
-
 Parse Dates
 -----------
 
-`date-format-lite` adds `date([outFormat], [outZone], [inZone])` method
-to native `String.prototype` and `Number.prototype`.
-
--   **outFormat** `String, optional` - Output format, e.g. `hh:mm:ss`.
-    Returns date object when format not specified.
--   **outZone** `Number, optional` - UTC offset for output in hours, e.g. `-6.5`.
--   **inZone** `Number, optional` - UTC offset in input in hours, e.g. `-6.5`.
+Numbers below 4294967296 are threated as seconds from epoh,
+so range from 1970-01-01T00:00:00.000Z to 1970-02-19T17:02:47.296Z
+are not usable in milliseconds.
 
 ```javascript
 "2013-07-10".date()           // Date {Wed Jul 10 2013 03:00:00 GMT+0300 (EEST)}
@@ -85,14 +86,6 @@ Add custom formats
 ```javascript
 Date.masks.my = '"DayNo "D'
 now.format("my")              // DayNo 10
-```
-
-Change default format
----------------------
-
-```javascript
-Date.masks.default = 'YYYY-MM-DD hh:mm:ss'
-now.format()         // 2013-07-10 13:47:36
 ```
 
 Change language
@@ -157,6 +150,7 @@ that year is used instead
 
 - If no UTC relation information is given with a time representation, the time is assumed to be in local time.
 - If the time is in UTC, add a Z directly after the time without a space.
+- Software should only ever deal with UTC except when displaying times to the user.
 
 ### ToDo
 
@@ -175,7 +169,7 @@ Links
 
 ### Licence
 
-Copyright (c) 2012-2016 Lauri Rooden &lt;lauri@rooden.ee&gt;  
+Copyright (c) 2012-2017 Lauri Rooden &lt;lauri@rooden.ee&gt;  
 [The MIT License](http://lauri.rooden.ee/mit-license.txt)
 
 
