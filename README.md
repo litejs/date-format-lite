@@ -111,11 +111,11 @@ Syntax
 - **YYYY**  - A full numeric representation of a year, 4 digits. Examples: 1999 or 2003
 - **M**     - Numeric representation of a month, without leading zeros. 1 through 12
 - **MM**    - Numeric representation of a month, with leading zeros. 01 through 12
-- **MMM**   - A short textual representation of a month, three letters. Jan through Dec
+- **MMM**   - A short textual representation of a month. Jan through Dec
 - **MMMM**  - A full textual representation of a month, such as January or March. January through December
 - **D**     - Day of the month without leading zeros. 1 to 31
 - **DD**    - Day of the month, 2 digits with leading zeros. 01 to 31
-- **DDD**   - A textual representation of a day, three letters. Mon through Sun
+- **DDD**   - A short textual representation of a day. Mon through Sun
 - **DDDD**  - A full textual representation of the day of the week. Sunday through Saturday
 - **H**     - 12-hour format of an hour without leading zeros. 1 through 12
 - **HH**    - 12-hour format of an hour with leading zeros. 01 through 12
@@ -133,11 +133,8 @@ Syntax
 - **"text"** - text, quotes should be escaped, eg '"a \\"quoted text\\"" YYYY'
 
 ###### Time zone designators
-- **Z**     - Time offsets from UTC in the form ±hh[:mm] Examples: +02,    +02:30
-- **ZZ**    - Time offsets from UTC in the form ±hh[mm] Examples:  +02,    +0230
-- **ZZZ**   - Time offsets from UTC in the form ±hh:mm Examples:   +02:00, +02:30
-- **ZZZZ**  - Time offsets from UTC in the form ±hhmm Examples:    +0200,  +0230
-
+- **Z**     - Time offsets from UTC in the form ±hh[:mm] Examples: +02:00
+- **ZZ**    - Time offsets from UTC in the form ±hh[mm] Examples:  +0200
 
 ###### ISO-8601
 - **w**     - Day of the week. 1 (for Monday) through 7 (for Sunday)
@@ -154,11 +151,11 @@ that year is used instead
 
 ### ToDo
 
-- [ ] Add timezone support for Date.format
+- [ ] Add timezone support for Date#date()
 
 ### Browser Support
 
-It should work IE6 and up but automated testing is currently broken.
+It should work in all browsers from IE5 and up but automated testing is currently broken.
 
 
 Links

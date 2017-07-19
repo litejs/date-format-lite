@@ -85,7 +85,7 @@
 		return fns[mask] = Function("d,o,a", 'var t;return "' + str + '"')
 	}
 
-	Date$prototype.date = Date$prototype.format = function(mask, _zone) {
+	Date$prototype.date = function(mask, _zone) {
 		mask = Date.masks[mask] || mask || Date.masks["default"]
 		var offset, undef
 		, date = this
@@ -116,7 +116,7 @@
 		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
 		}
-		return format ? date.format(format) : date
+		return format ? date.date(format) : date
 	}
 
 	Date$prototype.startOf = function(unit, format) {
@@ -130,7 +130,7 @@
 			unit = "D"
 		}
 		date.setTime(date - (date % (units[unit] || 1)))
-		return format ? date.format(format) : date
+		return format ? date.date(format) : date
 	}
 
 	Date$prototype.endOf = function(unit, format) {
@@ -216,7 +216,7 @@
 			date.setTime(date - (60 * zoneIn + date.getTimezoneOffset()) * 60000)
 		}
 
-		return format ? date.format(format, zoneOut) : date
+		return format ? date.date(format, zoneOut) : date
 	}
 
 }(Date, "prototype")
