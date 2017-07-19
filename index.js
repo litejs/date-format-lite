@@ -10,11 +10,13 @@
 
 
 !function(Date, proto) {
-	var maskRe = /("|')((?:\\?.)*?)\1|([YMDZ])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
+	var Date$prototype = Date[proto]
+	, String$prototype = String[proto]
+	, Number$prototype = Number[proto]
+	, maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
-	, unescapeRe = /\\(.)/g
-	, map = { D:"Date", h:"Hours", m:"Minutes", s:"Seconds", S:"Milliseconds" }
+	, fns = Object.create(null)
 	, aliases = {
 		sec: "s",
 		second: "s",
@@ -43,83 +45,69 @@
 		W: 604800000
 	}
 	, tmp = new Date()
-
-	//, isoDateRe = /(\d{4})[-.\/]W(\d\d?)[-.\/](\d)/
-
-
-	// ISO 8601 specifies numeric representations of date and time.
-	//
-	// The international standard date notation is
-	// YYYY-MM-DD
-	//
-	// The international standard notation for the time of day is
-	// hh:mm:ss
-	//
-	// Time zone
-	//
-	// The strings +hh:mm, +hhmm, or +hh (ahead of UTC)
-	// -hh:mm, -hhmm, or -hh (time zones west of the zero meridian, which are behind UTC)
-	//
-	// 12:00Z = 13:00+01:00 = 0700-0500
-
-	Date[proto].date = Date[proto].format = function(mask, _zone) {
-		mask = Date.masks[mask] || mask || Date.masks["default"]
-
-		var undef, zonediff
-		, date = this
-		, origin = +date
-		, get = "get" + (mask.slice(0, 4) == "UTC:" ? (mask = mask.slice(4), "UTC") : "")
-		, zone = _zone == undef ? date._z : _zone
-
-		if (zone != undef && get == "get") {
-			get = "getUTC"
-			date.setTime( origin + (36e5 * zone) )
-			zonediff = 60 * zone
-		}
-
-		mask = mask.replace(maskRe, function(match, quote, text, MD, single, pad) {
-			text = MD == "Y"  ? date[get + "FullYear"]()
-			: single == "Z" || MD == "Z"   ? (
-				quote = zonediff || get == "get" && -date.getTimezoneOffset() || 0,
-				quote ? (
-					(quote < 0 ? ((quote=-quote), "-") : "+") +
-					(quote < 600 ? "0" : "") +
-					(0|(quote/60)) +
-					((quote%=60) || MD ? (pad || match == "ZZZZ" ? "" : ":") + (quote > 9 ? quote : "0" + quote) : "")
-				)
-				: "Z"
-			)
-			: MD              ? Date.names[ date[get + (MD == "M" ? "Month" : "Day" ) ]() + ( match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12 ) ]
-			: single == "Y"   ? date[get + "FullYear"]() % 100
-			: single == "W"   ? Math.ceil(((tmp.setTime(origin + ((4 - (date[get + "Day"]()||7)) * 86400000)) - tmp["s" + get.slice(1) + "Month"](0, 1)) / 86400000 + 1 ) / 7)
-			: single == "M"   ? date[get + "Month"]() + 1
-			: single == "H"   ? date[get + "Hours"]() % 12 || 12
-			: single          ? date[get + map[single]]()
-			: match == "u"    ? (date/1000)>>>0
-			: match == "U"    ? origin
-			: match == "Q"    ? ((date[get + "Month"]()/3)|0) + 1
-			: match == "A"    ? Date[date[get + "Hours"]() > 11 ? "pm" : "am"]
-			: match == "w"    ? date[get + "Day"]() || 7
-			: match == "o"    ? (tmp.setTime(origin + ((4 - (date[get + "Day"]()||7)) * 86400000)),tmp[get + "FullYear"]())
-			: quote           ? text.replace(unescapeRe, "$1")
-			: match
-			if (match == "SS" && text < 100) {
-				text = "0" + text
-			}
-			return pad && text < 10 && single != "Z" ? "0" + text : text
-		})
-		if (zonediff != undef) {
-			date.setTime(origin)
-		}
-		return mask
+	, tmp2 = new Date()
+	, map = {
+		w: "Day()||7",
+		Y: "FullYear()%100",
+		M: "Month()+1",
+		D: "Date()",
+		h: "Hours()",
+		H: "Hours()%12||12",
+		m: "Minutes()",
+		s: "Seconds()",
+		S: "Milliseconds()"
 	}
 
-	Date[proto].tz = function(zone) {
+	function makeFn(mask, utc) {
+		var get = "d.get" + (utc ? "UTC" : "")
+		, setA = "a.setTime(+d+((4-(" + get + map.w + "))*864e5))"
+		, str = (utc ? mask.slice(4) : mask).replace(maskRe, function(match, quote, text, MD, single, pad) {
+			if (quote) return text
+			var str = (
+				MD == "Y"      ? get + "FullYear()" :
+				MD             ? "Date.names[" + get + (MD == "M" ? "Month" : "Day" ) + "()+" + (match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12) + "]" :
+				match == "u"   ? "(d/1000)>>>0" :
+				match == "U"   ? "+d" :
+				match == "Q"   ? "((" + get + "Month()/3)|0)+1" :
+				match == "A"   ? "Date[" + get + map.h + ">11?'pm':'am']" :
+				match == "o"   ? setA + ",a" + get.slice(1) + "FullYear()" :
+				single == "Z"  ? "(t=o)?(t<0?((t=-t),'-'):'+')+(t<600?'0':'')+(0|(t/60))" + (pad ? "" : "+':'") + "+((t%=60)>9?t:'0'+t):'Z'" :
+				single == "W"  ? "Math.ceil(((" + setA + "-a.s" + get.slice(3) + "Month(0,1))/864e5+1)/7)" :
+				get + map[single || match]
+			)
+			return '"+(' + (
+				match == "SS" ? "(t=" + str + ")>9?t>99?t:'0'+t:'00'+t" :
+				pad && single != "Z" ? "(t=" + str + ")>9?t:'0'+t" :
+				str
+			) + ')+"'
+		})
+
+		return fns[mask] = Function("d,o,a", 'var t;return "' + str + '"')
+	}
+
+	Date$prototype.date = Date$prototype.format = function(mask, _zone) {
+		mask = Date.masks[mask] || mask || Date.masks["default"]
+		var offset, undef
+		, date = this
+		, zone = _zone == undef ? date._z : _zone
+		, utc = mask.slice(0, 4) == "UTC:"
+		if (zone != undef && !utc) {
+			offset = 60 * zone
+			tmp2.setTime(+date + offset * 6e4)
+			utc = mask = "UTC:" + mask
+		} else {
+			offset = utc ? 0 : -date.getTimezoneOffset()
+			tmp2.setTime(+date)
+		}
+		return (fns[mask] || makeFn(mask, utc))(tmp2, offset, tmp)
+	}
+
+	Date$prototype.tz = function(zone) {
 		this._z = zone
 		return this
 	}
 
-	Date[proto].add = function(amount, unit, format) {
+	Date$prototype.add = function(amount, unit, format) {
 		var date = this
 		if (aliases[unit]) unit = aliases[unit]
 		amount |= 0
@@ -131,7 +119,7 @@
 		return format ? date.format(format) : date
 	}
 
-	Date[proto].startOf = function(unit, format) {
+	Date$prototype.startOf = function(unit, format) {
 		var date = this
 		if (aliases[unit]) unit = aliases[unit]
 		if (unit == "Y") {
@@ -145,11 +133,11 @@
 		return format ? date.format(format) : date
 	}
 
-	Date[proto].endOf = function(unit, format) {
+	Date$prototype.endOf = function(unit, format) {
 		return this.startOf(unit).add(1, unit).add(-1, "S", format)
 	}
 
-	Date[proto].since = function(from, unit) {
+	Date$prototype.since = function(from, unit) {
 		var diff
 		, date = this
 		if (aliases[unit]) unit = aliases[unit]
@@ -172,7 +160,7 @@
 
 		return diff
 	}
-	String[proto].since = Number[proto].since = function(from, unit) {
+	String$prototype.since = Number$prototype.since = function(from, unit) {
 		return this.date().since(from, unit)
 	}
 
@@ -193,7 +181,7 @@
 	 * num = +date || Date.parse(date) || ""+date;
 	 */
 
-	String[proto].date = Number[proto].date = function(format, zoneOut, zoneIn) {
+	String$prototype.date = Number$prototype.date = function(format, zoneOut, zoneIn) {
 		var undef, match, year, month
 		, date = new Date()
 		, num = +this || "" + this
