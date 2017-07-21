@@ -44,7 +44,7 @@
 		D: 86400000,
 		W: 604800000
 	}
-	, tmp = new Date()
+	, tmp1 = new Date()
 	, tmp2 = new Date()
 	, map = {
 		w: "Day()||7",
@@ -83,7 +83,7 @@
 			) + ')+"'
 		})
 
-		return fns[mask] = Function("d,o,a", 'var t;return "' + str + '"')
+		return fns[mask] = Function("d,a,o", 'var t;return "' + str + '"')
 	}
 
 	Date$prototype.date = function(mask, _zone) {
@@ -94,13 +94,13 @@
 		, utc = mask.slice(0, 4) == "UTC:"
 		if (zone != undef && !utc) {
 			offset = 60 * zone
-			tmp2.setTime(+date + offset * 6e4)
+			tmp1.setTime(+date + offset * 6e4)
 			utc = mask = "UTC:" + mask
 		} else {
 			offset = utc ? 0 : -date.getTimezoneOffset()
-			tmp2.setTime(+date)
+			tmp1.setTime(+date)
 		}
-		return (fns[mask] || makeFn(mask, utc))(tmp2, offset, tmp)
+		return (fns[mask] || makeFn(mask, utc))(tmp1, tmp2, offset)
 	}
 
 	Date$prototype.tz = function(zone) {
@@ -108,10 +108,9 @@
 		return this
 	}
 
-	Date$prototype.add = function(amount, unit, format) {
+	Date$prototype.add = function(amount, _unit, format) {
 		var date = this
-		if (aliases[unit]) unit = aliases[unit]
-		amount |= 0
+		, unit = aliases[_unit] || _unit
 		if (unit == "M" || unit == "Y" && (amount *= 12)) {
 			date.setUTCMonth(date.getUTCMonth() + amount)
 		} else if (amount) {
@@ -120,9 +119,9 @@
 		return format ? date.date(format) : date
 	}
 
-	Date$prototype.startOf = function(unit, format) {
+	Date$prototype.startOf = function(_unit, format) {
 		var date = this
-		if (aliases[unit]) unit = aliases[unit]
+		, unit = aliases[_unit] || _unit
 		if (unit == "Y") {
 			date.setUTCMonth(0, 1)
 			unit = "D"
@@ -138,20 +137,20 @@
 		return this.startOf(unit).add(1, unit).add(-1, "S", format)
 	}
 
-	Date$prototype.since = function(from, unit) {
+	Date$prototype.since = function(from, _unit) {
 		var diff
 		, date = this
-		if (aliases[unit]) unit = aliases[unit]
+		, unit = aliases[_unit] || _unit
 		if (typeof from == "string") {
-			from = aliases[from] ? (tmp.setTime(+date), tmp.startOf(from)) : from.date()
+			from = aliases[from] ? (tmp2.setTime(+date), tmp2.startOf(from)) : from.date()
 		}
 		if (units[unit]) {
 			diff = (date - from) / units[unit]
 		} else {
 			diff = date.since("month", "S") - from.since("month", "S")
 			if (diff) {
-				tmp.setTime(+date)
-				diff /= units.D * tmp.endOf("M").getUTCDate()
+				tmp1.setTime(+date)
+				diff /= units.D * tmp1.endOf("M").getUTCDate()
 			}
 			diff += 12 * (date.getUTCFullYear() - from.getUTCFullYear()) + date.getUTCMonth() - from.getUTCMonth()
 			if (unit == "Y") {
