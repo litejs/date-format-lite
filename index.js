@@ -100,7 +100,7 @@
 			offset = utc ? 0 : -date.getTimezoneOffset()
 			tmp1.setTime(+date)
 		}
-		return (fns[mask] || makeFn(mask, utc))(tmp1, tmp2, offset)
+		return isNaN(+date) ? "" + date : (fns[mask] || makeFn(mask, utc))(tmp1, tmp2, offset)
 	}
 
 	Date$prototype.tz = function(zone) {
