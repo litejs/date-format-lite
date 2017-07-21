@@ -46,7 +46,7 @@ date.date("iso")                                         // "2009-02-13T23:31:30
 date.date("UTC:hh:mm")                                   // "23:31"
 date.date("hh:mm", 2.5)                                  // "02:01"
 
-"2013-07-10T13:47:36Z".date("hh:mm '(local time)'")      // "16:47 (local time)"
+"2013-07-10T13:47:36Z".date("hh:mm [(local time)]")      // "16:47 (local time)"
 
 "2013-07-10T06:00:00Z".since("day", "hours")             // 6
 "2013-07-10T06:00:00Z".since("day", "days")              // 0.25
@@ -84,7 +84,7 @@ Add custom formats
 ------------------
 
 ```javascript
-Date.masks.my = '"DayNo "D'
+Date.masks.my = '[DayNo] D'
 now.format("my")              // DayNo 10
 ```
 

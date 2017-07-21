@@ -13,7 +13,7 @@
 	var Date$prototype = Date[proto]
 	, String$prototype = String[proto]
 	, Number$prototype = Number[proto]
-	, maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]|(["\n\r\u2028\u2029])/g
+	, maskRe = /(\[)((?:\\?.)*?)\]|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]|(["\n\r\u2028\u2029])/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, fns = Object.create(null)
@@ -170,7 +170,7 @@
 
 	Date.masks = {
 		"default": "DDD MMM DD YYYY hh:mm:ss",
-		"iso": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'"
+		"iso": "UTC:YYYY-MM-DD[T]hh:mm:ss[Z]"
 	}
 	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
