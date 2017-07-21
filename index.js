@@ -13,7 +13,7 @@
 	var Date$prototype = Date[proto]
 	, String$prototype = String[proto]
 	, Number$prototype = Number[proto]
-	, maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]/g
+	, maskRe = /("|')((?:\\?.)*?)\1|([YMD])\3\3\3?|([YMDHhmsWSZ])(\4?)|[uUASwoQ]|(["\n\r\u2028\u2029])/g
 	, dateRe = /(\d+)[-.\/](\d+)[-.\/](\d+)/
 	, timeRe = /(\d+):(\d+)(?::(\d+))?(\.\d+)?(?:\s*(?:(a)|(p))\.?m\.?)?(\s*(?:Z|GMT|UTC)?(?:([-+]\d\d):?(\d\d)?)?)?/i
 	, fns = Object.create(null)
@@ -61,9 +61,10 @@
 	function makeFn(mask, utc) {
 		var get = "d.get" + (utc ? "UTC" : "")
 		, setA = "a.setTime(+d+((4-(" + get + map.w + "))*864e5))"
-		, str = (utc ? mask.slice(4) : mask).replace(maskRe, function(match, quote, text, MD, single, pad) {
-			if (quote) return text
+		, str = (utc ? mask.slice(4) : mask).replace(maskRe, function(match, quote, text, MD, single, pad, esc) {
 			var str = (
+				esc            ? escape(esc).replace(/%u/g, "\\u").replace(/%/g, "\\x") :
+				quote          ? text :
 				MD == "Y"      ? get + "FullYear()" :
 				MD             ? "Date.names[" + get + (MD == "M" ? "Month" : "Day" ) + "()+" + (match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12) + "]" :
 				match == "u"   ? "(d/1000)>>>0" :
@@ -75,7 +76,7 @@
 				single == "W"  ? "Math.ceil(((" + setA + "-a.s" + get.slice(3) + "Month(0,1))/864e5+1)/7)" :
 				get + map[single || match]
 			)
-			return '"+(' + (
+			return quote || esc ? str : '"+(' + (
 				match == "SS" ? "(t=" + str + ")>9?t>99?t:'0'+t:'00'+t" :
 				pad && single != "Z" ? "(t=" + str + ")>9?t:'0'+t" :
 				str
