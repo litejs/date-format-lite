@@ -208,6 +208,7 @@ require("testman")
 .equal( addDate.add(0, "years", "isoSS"), "2010-05-31T22:41:50.223Z" )
 .equal( addDate.add(800, "ms", "isoSS"), "2010-05-31T22:41:51.023Z" )
 .equal( addDate.add(-20, "ms", "isoSS"), "2010-05-31T22:41:51.003Z" )
+.equal( addDate.add(-3, "month", "isoSS"), "2010-02-28T22:41:51.003Z" )
 
 
 .describe ("(Date | String | Number)#since(from, unit)")

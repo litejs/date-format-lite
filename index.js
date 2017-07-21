@@ -112,7 +112,11 @@
 		var date = this
 		, unit = aliases[_unit] || _unit
 		if (unit == "M" || unit == "Y" && (amount *= 12)) {
+			unit = date.getUTCDate()
 			date.setUTCMonth(date.getUTCMonth() + amount)
+			if (unit > (unit = date.getUTCDate())) {
+				date.add(-unit, "D")
+			}
 		} else if (amount) {
 			date.setTime(date.getTime() + (amount * (units[unit] || 1)))
 		}
