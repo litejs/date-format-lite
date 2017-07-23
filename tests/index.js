@@ -10,8 +10,7 @@ var d1 = new Date(1276703114000)
 	10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
 	20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
 	30, 31, 32, 33, 34, 35, 36, 37, 38, 39
-) + " \u2028 \u2029"
-, controlA = control.replace(/['"\\]/g, "")
+) + " \u2028 \u2029\\"
 
 d1.setUTCHours(13, 45, 55, 12)
 
@@ -145,8 +144,6 @@ require("testman")
 
 .it ( "should accept text in quotes" )
 .equal( d3.date("UTC:A " + control), "PM " + control )
-//.equal( d3.date("UTC:'" + controlA + "' A"), controlA + " PM" )
-//.equal( d3.date('UTC:"' + controlA + '" A'), controlA + " PM" )
 
 .it ( "should format with timezone" )
 .equal( d3.date("UTC:hh:mmZ"),    "23:31Z" )
