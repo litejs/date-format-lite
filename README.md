@@ -5,8 +5,8 @@
 [tests]: https://raw.github.com/litejs/date-format-lite/master/tests/run.js "tests/run.js"
 
 
-    @version    18.0.0-rc.1
-    @date       2017-07-19
+    @version    18.0.0-rc.2
+    @date       2017-07-27
 
 
 Date format &ndash; [![Build][1]][2] [![Coverage][3]][4]
@@ -26,6 +26,8 @@ to native `Date` object prototype:
  - Date#**add**(amount, [unit])
  - Date#**startOf**(unit, [format])
  - Date#**endOf**(unit, [format])
+ - Date#**locale**(locale, [format])
+ - Date#**tz**(zone, [format])
 
 
 `String` and `Number` are extended with same methods
@@ -88,20 +90,16 @@ Date.masks.my = '[DayNo] D'
 now.format("my")              // DayNo 10
 ```
 
-Change language
----------------
+Internationalization
+--------------------
 
 ```javascript
-// Add to estonian-lang.js
-Date.names = "Jaan Veeb Märts Apr Mai Juuni Juuli Aug Sept Okt Nov Dets jaanuar veebruar märts aprill mai juuni juuli august september oktoober november detsember P E T K N R L pühapäev esmaspäev teisipäev kolmapäev neljapäev reede laupäev".split(" ")
-
-// Change AM and PM
-Date.am = "a.m."
-Date.pm = "p.m."
+require("date-format-lite/locale/de.js")
+// Set global locale
+Date.locale("de") // default en
+// Set locale to a specific date object
+new Date().locale("de")
 ```
-
-
-See [tests][tests] for more examples
 
 Syntax
 ------

@@ -1,9 +1,12 @@
 
 require("../")
+require("../locale/de.js")
+require("../locale/et.js")
 
 var d1 = new Date(1276703114000)
 , d2 = new Date(1000000000000)
 , d3 = new Date(1234567890000)
+, d4 = new Date(1234567890000).tz(2)
 , addDate = new Date(1234567890123)
 , control = String.fromCharCode(
 	 0,  1,  2,  3,  4,  5,  6,  7,  8,  9,
@@ -40,12 +43,13 @@ require("testman")
 .equal( d3.date("UTC:A"), "PM" )
 
 .it ( "should format date and time" )
-.equal( d1.date("default"), "Wed Jun 16 2010 16:45:55" )
 .equal( d1.date('UTC:YYYY-MM-DD[T]hh:mm:ss[Z]'), "2010-06-16T13:45:55Z" )
 .equal( d1.date("UTC:YYYYMMDDHHmmss"), "20100616014555" )
 .equal( d2.date("UTC:YY-M-D h:m:s"), "01-9-9 1:46:40" )
 .equal( d3.date("UTC:Y MMM DDD H A"), "9 Feb Fri 11 PM" )
 .equal( d3.date("UTC:Y MMMM DDDD H A"), "9 February Friday 11 PM" )
+.equal( d4.locale("de", "LLLL"), "Samstag, 14. Februar 2009 01:31" )
+.equal( d4.locale("et", "LLLL"), "laupäev, 14. veebruar 2009 1:31" )
 .equal( "2017-07-18T00:00Z".date("UTC:HA"), "12AM" )
 .equal( "2017-07-18T01:00Z".date("UTC:HA"), "1AM" )
 .equal( "2017-07-18T11:00Z".date("UTC:HA"), "11AM" )

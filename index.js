@@ -57,6 +57,27 @@
 		s: "Seconds()",
 		S: "Milliseconds()"
 	}
+	, locales = Date.locales = {
+		en: {
+			am: "AM",
+			pm: "PM",
+			names: "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g),
+			masks: {
+				LT:   "HH:mm",
+				LTS:  "HH:mm:ss",
+				L:    "DD/MM/YYYY",
+				LL:   "D MMMM YYYY",
+				LLL:  "D MMMM YYYY HH:mm",
+				LLLL: "dddd, D MMMM YYYY HH:mm"
+
+			}
+		}
+	}
+	, masks = Date.masks = {
+		"iso": "UTC:YYYY-MM-DD[T]hh:mm:ss[Z]"
+	}
+
+
 
 	function makeFn(mask, utc) {
 		var get = "d.get" + (utc ? "UTC" : "")
@@ -66,11 +87,11 @@
 				esc            ? escape(esc).replace(/%u/g, "\\u").replace(/%/g, "\\x") :
 				quote          ? text :
 				MD == "Y"      ? get + "FullYear()" :
-				MD             ? "Date.names[" + get + (MD == "M" ? "Month" : "Day" ) + "()+" + (match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12) + "]" :
+				MD             ? "l.names[" + get + (MD == "M" ? "Month" : "Day" ) + "()+" + (match == "DDD" ? 24 : MD == "D" ? 31 : match == "MMM" ? 0 : 12) + "]" :
 				match == "u"   ? "(d/1000)>>>0" :
 				match == "U"   ? "+d" :
 				match == "Q"   ? "((" + get + "Month()/3)|0)+1" :
-				match == "A"   ? "Date[" + get + map.h + ">11?'pm':'am']" :
+				match == "A"   ? "l[" + get + map.h + ">11?'pm':'am']" :
 				match == "o"   ? setA + ",a" + get.slice(1) + "FullYear()" :
 				single == "Z"  ? "(t=o)?(t<0?((t=-t),'-'):'+')+(t<600?'0':'')+(0|(t/60))" + (pad ? "" : "+':'") + "+((t%=60)>9?t:'0'+t):'Z'" :
 				single == "W"  ? "Math.ceil(((" + setA + "-a.s" + get.slice(3) + "Month(0,1))/864e5+1)/7)" :
@@ -83,14 +104,15 @@
 			) + ')+"'
 		})
 
-		return fns[mask] = Function("d,a,o", 'var t;return "' + str + '"')
+		return fns[mask] = Function("d,a,o,l", 'var t;return "' + str + '"')
 	}
 
-	Date$prototype.date = function(mask, _zone) {
-		mask = Date.masks[mask] || mask || Date.masks["default"]
+	Date$prototype.date = function(_mask, _zone) {
 		var offset, undef
 		, date = this
-		, zone = _zone == undef ? date._z : _zone
+		, locale = locales[date._locale || Date._locale || "en"] || locales.en
+		, mask = locale.masks && locale.masks[_mask] || masks[_mask] || _mask
+		, zone = _zone == undef ? date._z || Date._tz : _zone
 		, utc = mask.slice(0, 4) == "UTC:"
 		if (zone != undef && !utc) {
 			offset = 60 * zone
@@ -100,13 +122,24 @@
 			offset = utc ? 0 : -date.getTimezoneOffset()
 			tmp1.setTime(+date)
 		}
-		return isNaN(+date) ? "" + date : (fns[mask] || makeFn(mask, utc))(tmp1, tmp2, offset)
+		return isNaN(+date) ? "" + date : (fns[mask] || makeFn(mask, utc))(
+			tmp1,
+			tmp2,
+			offset,
+			locale
+		)
 	}
 
-	Date$prototype.tz = function(zone) {
-		this._z = zone
-		return this
+	function makeSetter(method) {
+		Date[method] = Date$prototype[method] = function(value, format) {
+			var date = this
+			date["_" + method] = value
+			return format ? date.date(format) : date
+		}
 	}
+
+	makeSetter("tz")
+	makeSetter("locale")
 
 	Date$prototype.add = function(amount, _unit, format) {
 		var date = this
@@ -167,15 +200,6 @@
 	String$prototype.since = Number$prototype.since = function(from, unit) {
 		return this.date().since(from, unit)
 	}
-
-	Date.am = "AM"
-	Date.pm = "PM"
-
-	Date.masks = {
-		"default": "DDD MMM DD YYYY hh:mm:ss",
-		"iso": "UTC:YYYY-MM-DD[T]hh:mm:ss[Z]"
-	}
-	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
 	//*/
 
