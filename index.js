@@ -144,7 +144,8 @@
 
 	Date.masks = {
 		"default": "DDD MMM DD YYYY hh:mm:ss",
-		"iso": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'"
+		"iso": "UTC:YYYY-MM-DD'T'hh:mm:ss'Z'",
+		"RFC3339": "YYYY-MM-DD'T'hh:mm:ssZZZ",
 	}
 	Date.names = "JanFebMarAprMayJunJulAugSepOctNovDecJanuaryFebruaryMarchAprilMayJuneJulyAugustSeptemberOctoberNovemberDecemberSunMonTueWedThuFriSatSundayMondayTuesdayWednesdayThursdayFridaySaturday".match(/.[a-z]+/g)
 
